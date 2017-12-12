@@ -1,0 +1,17 @@
+{% extends 'questions/base.html' %}
+
+
+
+{% block content %}
+
+<div id="new_question_wrapper">
+    <form action="{% url 'questions:post_question' %}" method="post">
+        {% csrf_token %}
+        <p><input type="text" placeholder="title" name="title" id="new_question_title" required/></p>
+        <p><textarea rows="10" cols="75" placeholder="body" name="body" id="new_question_body" required></textarea></p>
+        <p><button type="submit">ASK</button> </p>
+    </form>
+</div>
+
+
+{% endblock %}

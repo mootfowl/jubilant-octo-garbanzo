@@ -1,0 +1,15 @@
+{% extends 'questions/base.html' %}
+
+
+{% block content %}
+SIGNIN
+<div id="signin_wrapper">
+    <form action="{% url 'questions:signin_attempt' %}" method="post">
+        {% csrf_token %}
+        <p><input type="text" placeholder="username" name="username" id="username_field" required/></p>
+        <p><input type="password" placeholder="password" name="password" id="password_field" required/></p>
+        <button type="submit" id="btn_signin"><b>signin</b></button>
+    </form>
+</div>
+
+{% endblock %}

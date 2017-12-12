@@ -1,0 +1,29 @@
+{% extends 'questions/base.html' %}
+
+{% block content %}
+
+<h3>{{ question.title }}</h3>
+<p>by {{ question.user }} | published {{ question.date_time }}</p>
+<p id="question_body">{{ question.body }}</p>
+<p>ANSWERS</p>
+<ul>
+    {% for answer in answers %}
+    <li>
+        <p><b>{{ answer }}</b> <br /> by {{ answer.user }} | posted {{ answer.date_time }} | < {{ answer.votes }} > votes</p>
+        <p>{{ answer.body }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<div id="new_comment_wrapper">
+    <form action="{% url 'questions:post_answer' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ question.id }}" name="question_id"/>
+        <p><textarea rows="10" cols="75" placeholder="answer" name="answer" id="new_answer" required></textarea></p>
+        <p><button type="submit">ANSWER</button> </p>
+    </form>
+</div>
+
+
+
+{% endblock %}

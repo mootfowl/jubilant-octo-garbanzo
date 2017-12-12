@@ -38,6 +38,7 @@ Question:
 * Image Field (for screenshots)
 * Date/Timestamp
 * Tag(s)
+* Solved
 
 Answers:
 * User

@@ -1,0 +1,25 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'questions/style.css' %}"/>
+</head>
+<body>
+<div id="header_wrapper">
+    <h3 id="page_title">source.training -
+        <a href="{% url 'questions:index' %}">Questions & Answers</a></h3>
+    <hr/>
+</div>
+
+
+    {% block content %}
+    {% endblock %}
+
+    <hr/>
+
+    <div id="footer">© 2018 Northwest Power Pool Corporation - All rights reserved.
+        {% if user.is_authenticated %}
+            | <a href="{% url 'questions:signout' %}" class="link">signout</a>
+        {% elif not user.is_authenticated %}
+            | <a href="{% url 'questions:signin' %}" class="link">signin</a>
+        {% endif %}
+    </div>
+</body>
