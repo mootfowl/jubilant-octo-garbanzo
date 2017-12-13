@@ -1,19 +1,30 @@
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'questions/style.css' %}"/>
+    <title>source - Q&A</title>
+    <link rel="icon" href="{% static 'questions/favicon.png' %}">
 </head>
-<body>
-<div id="header_wrapper">
-    <h3 id="page_title">source.training -
-        <a href="{% url 'questions:index' %}">Questions & Answers</a></h3>
-    <hr/>
-</div>
 
+<header>
+    <div id="header_container">
+        <a href="{% url 'questions:index' %}"><img src="{% static 'questions/sourcelogo_updated_03.png' %}" height="30" id="site_logo"/></a>
+        <form action="{% url 'questions:search' %}" method="post" id="global_search">
+            {% csrf_token %}
+            <input type="text" placeholder="What are you looking for?" name="search" required id="global_search_input"/>
+            <button type="submit">SEARCH</button>
+        </form>
+    </div>
+</header>
+
+<body>
+
+    <div id="page_heading">
+        <h3 id="page_title"><a href="{% url 'questions:index' %}" id="title_link">Questions & Answers</a></h3>
+    </div>
+    <p></p>
 
     {% block content %}
     {% endblock %}
-
-    <hr/>
 
     <div id="footer">© 2018 Northwest Power Pool Corporation - All rights reserved.
         {% if user.is_authenticated %}
@@ -22,4 +33,5 @@
             | <a href="{% url 'questions:signin' %}" class="link">signin</a>
         {% endif %}
     </div>
+
 </body>

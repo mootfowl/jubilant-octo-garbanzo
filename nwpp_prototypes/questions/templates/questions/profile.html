@@ -1,0 +1,14 @@
+{% extends 'questions/base.html' %}
+
+{% block content %}
+
+<h2>{{ user.username }}</h2>
+
+<img src="/{{ user.profile.avatar }}" height="200" width="200"/>
+<p>{{ user.email }}</p>
+<p>{{ user.profile.questions }} questions</p>
+<p>{{ user.profile.answers }} answers</p>
+<p>{{ user.profile.solutions }} solutions</p>
+<p>{{ user.profile.votes }} votes</p>
+
+{% endblock %}

@@ -3,13 +3,26 @@
 {% block content %}
 
 <h3>{{ question.title }}</h3>
-<p>by {{ question.user }} | published {{ question.date_time }}</p>
+<p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
+    | published {{ question.date_time }}
+    {% if request.user == question.user %}
+    | EDIT
+    {% endif %}
+</p>
 <p id="question_body">{{ question.body }}</p>
+
+<p> tags:
+    {% for tag in tags %}
+        {{ tag }}
+    {% endfor %}</p>
+
 <p>ANSWERS</p>
 <ul>
     {% for answer in answers %}
     <li>
-        <p><b>{{ answer }}</b> <br /> by {{ answer.user }} | posted {{ answer.date_time }} | < {{ answer.votes }} > votes</p>
+        <p><b>{{ answer }}</b>
+            <br /> by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
+            | posted {{ answer.date_time }} | < {{ answer.votes }} > votes</p>
         <p>{{ answer.body }}</p>
     </li>
     {% endfor %}
@@ -24,6 +37,12 @@
     </form>
 </div>
 
+<div>RELATED QUESTIONS</div>
+<ul>
+    {% for question in related %}
+        <a href="{% url 'questions:question_detail' question.id %}"><li>{{ question }}</li></a>
+    {% endfor %}
+</ul>
 
 
 {% endblock %}
