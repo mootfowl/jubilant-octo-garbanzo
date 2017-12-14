@@ -2,23 +2,25 @@
 
 {% block content %}
 
-<a href="{% url 'questions:new_question' %}">ASK A QUESTION</a>
+<br />
+<div class="container">
+    <h4>SEARCH RESULTS</h4>
 
-<p>SEARCH RESULTS</p>
+    {{ terms }}
 
-{{ terms }}
+    <ul id="question_list" style="list-style: none;">
+    {% for question in questions %}
 
-<ul id="question_list" style="list-style: none;">
-{% for question in questions %}
+        <a href="{% url 'questions:question_detail' question.id %}" id="question_li" style="text-decoration: none">
+            <p><li><b>{{ question.title }}</b>
+            <br /> by {{ question.user }} | <i>{{ question.date_time}}</i>
+            <br /> {{question.answer_set.count }} answers</li></p>
+        </a>
 
-    <a href="{% url 'questions:question_detail' question.id %}" id="question_li" style="text-decoration: none">
-        <p><li><b>{{ question.title }}</b>
-        <br /> by {{ question.user }} | <i>{{ question.date_time}}</i>
-        <br /> {{question.answer_set.count }} answers</li></p>
-    </a>
-
-{% endfor %}
-</ul>
+    {% endfor %}
+    </ul>
+</div>
+<br />
 
 
 {% endblock %}

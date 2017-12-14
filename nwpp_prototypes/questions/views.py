@@ -74,6 +74,8 @@ def index(request):  # w/Paginator
 
 def question_detail(request, question_id):
     question = Question.objects.get(pk=question_id)
+    question.views += 1
+    question.save()
     answers = question.answer_set.order_by('-date_time')  # related objects reference <object_name>_set.all()
     question_tags = question.tags.all()
     tags = []
@@ -81,7 +83,6 @@ def question_detail(request, question_id):
         tags.append(tag)
     # print(tags)
     related = Question.objects.filter(tags__name__in=tags).distinct().exclude(pk=question_id)
-    # related.remove(question) ##  this doesn't work, but needs to
     return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related})
 
 
@@ -118,6 +119,19 @@ def post_answer(request):
 
 def search(request):
     terms = request.POST['search'].split()
-    questions = Question.objects.filter(tags__name__in=terms).distinct()
-    print(questions)
+    questions = Question.objects.filter(tags__name__in=terms, body__name__in=terms).distinct()
+    # print(questions)
     return render(request, 'questions/search.html', {'terms': terms, 'questions': questions})
+
+
+def solve(request, answer_id):
+    answer = Answer.objects.get(pk=answer_id)
+    question = answer.question
+    user = answer.user
+    user.profile.solutions += 1
+    user.profile.save()
+    question.solved = True
+    question.save()
+    answer.solution = True
+    answer.save()
+    return HttpResponseRedirect(f'../question_detail/{question.id}')

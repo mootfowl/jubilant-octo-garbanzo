@@ -2,47 +2,76 @@
 
 {% block content %}
 
-<h3>{{ question.title }}</h3>
-<p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
-    | published {{ question.date_time }}
-    {% if request.user == question.user %}
-    | EDIT
-    {% endif %}
-</p>
-<p id="question_body">{{ question.body }}</p>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>{{ question.title }}</h3>
+            <p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
+                | published {{ question.date_time }}
+                {% if request.user == question.user %}
+                | EDIT
+                {% endif %}
+            </p>
+            <p id="question_body">{{ question.body }}</p>
 
-<p> tags:
-    {% for tag in tags %}
-        {{ tag }}
-    {% endfor %}</p>
+            <p> tags:
+                {% for tag in tags %}
+                    {{ tag }}
+                {% endfor %}</p>
 
-<p>ANSWERS</p>
-<ul>
-    {% for answer in answers %}
-    <li>
-        <p><b>{{ answer }}</b>
-            <br /> by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
-            | posted {{ answer.date_time }} | < {{ answer.votes }} > votes</p>
-        <p>{{ answer.body }}</p>
-    </li>
-    {% endfor %}
-</ul>
+            {% if answers.count > 0 %}
 
-<div id="new_comment_wrapper">
-    <form action="{% url 'questions:post_answer' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" value="{{ question.id }}" name="question_id"/>
-        <p><textarea rows="10" cols="75" placeholder="answer" name="answer" id="new_answer" required></textarea></p>
-        <p><button type="submit">ANSWER</button> </p>
-    </form>
+                <h5>ANSWERS</h5>
+                <ul>
+                    {% for answer in answers %}
+                        <li>
+                            <p>< {{ answer.votes }} > votes
+                           {% if request.user == question.user and question.solved == False %}
+                                | <a href="{% url 'questions:solve' answer.id %}"><span>SOLUTION</span></a></p>
+                            {% endif %}
+
+                            <p><i>{{ answer.body }}</i></p>
+                            <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
+                                | posted {{ answer.date_time }} </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <div id="answer_wrapper">
+                    <form action="{% url 'questions:post_answer' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ question.id }}" name="question_id"/>
+                        <p><textarea rows="10" cols="75" placeholder="answer" name="answer" id="new_answer" required></textarea></p>
+                        <p><button type="submit">ANSWER</button> </p>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-4">
+            <br />
+            <br />
+
+            {% if related.count > 0 %}
+
+                <h5>RELATED QUESTIONS</h5>
+                <ul>
+                    {% for question in related %}
+                        <a href="{% url 'questions:question_detail' question.id %}"><li>{{ question }}</li></a>
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+        </div>
+
+    </div>
+
 </div>
-
-<div>RELATED QUESTIONS</div>
-<ul>
-    {% for question in related %}
-        <a href="{% url 'questions:question_detail' question.id %}"><li>{{ question }}</li></a>
-    {% endfor %}
-</ul>
+<br />
 
 
 {% endblock %}

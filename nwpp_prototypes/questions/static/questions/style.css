@@ -1,25 +1,78 @@
 body, html {
-    font-family: "Roboto", sans-serif;
-    margin: 0px;
+    margin: 0;
     overflow-x: hidden;
+    background-color: #f8f9fa!important;
 }
 
+/*#btn_ask_question {*/
+    /*border: 1px solid black;*/
+    /*width: 250px;*/
+/*}*/
+
+.question_container {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+}
+
+.question_container:hover {
+    box-shadow: 0 0 10px #4899de;
+    border: 1px solid cornflowerblue;
+}
+
+#solved_indicator {
+    float: right;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+    line-height: 35px;
+    text-align: center;
+    font-size: 2em;
+    top: -98px;
+    /*left: -38px;*/
+    border: 3px solid #9aca27;
+    color: #9aca27;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 1;
+}
 
 #site_logo {
-    margin: 20px;
-    margin-left: 40px;
+    /*margin-top: 20px;*/
+    /*margin-bottom: 20px;*/
+}
+
+#hive_hex {
+    position: relative;
+    top: 22px;
+    left: 10px;
+}
+
+#hex3 {
+    position: relative;
+    top: 34px;
+    left: -59px;
 }
 
 #global_search {
-    float: right;
-    margin-right: 20%;
+    /*float: right;*/
+    /*margin-right: 10%;*/
     position: relative;
-    top: 20px;
+    /*top: 20px;*/
 }
 
 #global_search_input {
-    height: 30px;
-    width: 300px;
+    height: 45px;
+    padding: 5px;
+    width: 250px;
+    border-radius: 5px;
+}
+
+#global_search_btn {
+    height: 45px;
 }
 
 #page_heading {
@@ -35,20 +88,16 @@ body, html {
     border-bottom: 1px solid black;
 }
 
-#header-container {
-    display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: nowrap;
-}
-
 #page_title {
-    margin-left: 40px;
-    position: relative;
-    top: 2px;
+    margin-left: 45px;
+    position: absolute;
+    top: 36px;
+    /*line-height: 36px;*/
     font-weight: 300;
     font-size: 36px;
     color: white;
     text-decoration: none;
+    /*text-shadow: 1px 1px grey;*/
 }
 
 #title_link:visited {
@@ -56,7 +105,7 @@ body, html {
 }
 
 #title_link:hover {
-    color: cornflowerblue;
+    /*color: cornflowerblue;*/
 }
 
 #title_link {
@@ -64,10 +113,22 @@ body, html {
     font-weight: 300;
 }
 
+#ask_question {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#block_background {
+    background-color: #e6e2da;
+}
+
 #footer {
-    margin-top: 20px;
-    padding: 40px;
-    height: 40px;
+    /*margin-top: 20px;*/
+    /*padding: 40px;*/
+    height: 20%;
     width: 100%;
     color: white;
     background-color: black;

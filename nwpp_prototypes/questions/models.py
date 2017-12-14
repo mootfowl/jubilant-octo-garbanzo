@@ -12,6 +12,7 @@ class Question(models.Model):
     tags = TaggableManager()
     date_time = models.DateTimeField(auto_now=True)
     solved = models.BooleanField(default=False)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

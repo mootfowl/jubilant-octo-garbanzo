@@ -4,15 +4,17 @@
 
 {% block content %}
 
-<div id="new_question_wrapper">
+<br />
+<div class="container" id="new_question_wrapper">
     <form action="{% url 'questions:post_question' %}" method="post">
         {% csrf_token %}
-        <p><input type="text" placeholder="title" name="title" id="new_question_title" required/></p>
+        <p><input type="text" placeholder="title" name="title" class="text_input_field" required/></p>
         <p><textarea rows="10" cols="75" placeholder="body" name="body" id="new_question_body" required></textarea></p>
-        <p><input type="text" placeholder="tags, separated by commas" name="tags" id="new_question_tags" required/></p>
-        <p><button type="submit">ASK</button> </p>
+        <p><input type="text" placeholder="tags, separated by commas" name="tags" class="text_input_field" required/></p>
+        <p><button type="submit" class="btn btn-info btn-lg">ASK</button> </p>
     </form>
 </div>
+<br />
 
 
 {% endblock %}
