@@ -1,0 +1,82 @@
+{% extends 'questions/base.html' %}
+
+{% block content %}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>{{ question.title }}</h3>
+            <p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
+                | published {{ question.date_time }}
+                {% if request.user == question.user %}
+                | EDIT
+                {% endif %}
+            </p>
+            <p id="question_body">{{ question.body }}</p>
+
+            <p> tags:
+                {% for tag in tags %}
+                    {{ tag }}
+                {% endfor %}</p>
+
+            {% if answers.count > 0 %}
+
+                <h5>ANSWERS</h5>
+                <ul>
+                    {% for answer in answers %}
+                        <li style="list-style: none">
+                            <p><a href="{% url 'questions:voteup' answer.id %}" answerid="{{answer.id}}" onclick="console.log(this.answerid);document.querySelector('#counter{{answer.id}}').innerText = 'this';"><span class="fa fa-arrow-circle-o-up"></span></a>
+                                <b id="counter{{answer.id}}">{{ answer.vote_counter }}</b>
+                                <a href="{% url 'questions:votedown' answer.id %}"><span class="fa fa-arrow-circle-o-down"></span></a>
+                                votes
+                            {% if request.user == question.user and question.solved == False %}
+                                | <a href="{% url 'questions:solve' answer.id %}"><span class="fa fa-check-circle-o"></span></a></p>
+                            {% elif question.solved and answer.solution == True %}
+                                | <span class="fa fa-check-circle-o"></span></a></p>
+                            {% endif %}
+
+                            <p><i>{{ answer.body }}</i></p>
+                            <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
+                                | posted {{ answer.date_time }} </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <div id="answer_wrapper">
+                    <form action="{% url 'questions:post_answer' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ question.id }}" name="question_id"/>
+                        <p><textarea rows="10" cols="75" placeholder="answer" name="answer" id="new_answer" required></textarea></p>
+                        <p><button type="submit" class="btn btn-outline-info btn-lg">ANSWER</button> </p>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-4">
+            <br />
+            <br />
+
+            {% if related.count > 0 %}
+
+                <h5>RELATED QUESTIONS</h5>
+                <ul>
+                    {% for question in related %}
+                        <a href="{% url 'questions:question_detail' question.id %}"><li>{{ question }}</li></a>
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+<br />
+
+
+{% endblock %}

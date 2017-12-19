@@ -2,18 +2,106 @@
 
 {% block content %}
 
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+        let data = google.visualization.arrayToDataTable([
+            ['Task', 'Quantity'],
+            ['Questions', {{ user.profile.questions }}],
+            ['Answers', {{ user.profile.answers }}],
+            ['Solutions',  {{ user.profile.solutions }}],
+            ['Votes', {{ user.profile.vote_counter }}],
+        ]);
+
+        let options = {
+            // title: 'ACTIVITY',
+            pieHole: 0.4,
+            backgroundColor: 'transparent',
+            colors: ['#9aca27', '#f7a300', '#4899de', '#cb4154'],
+            legend: {'position': 'none'},
+        };
+
+        let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+
 <br />
 <div class="container">
-    <h2>{{ user.username }}</h2>
+    <div class="row">
+        <div class="col">
+            <h2>{{ user.username }}</h2>
+            <img src="/{{ user.profile.avatar }}" height="200" width="200" id="user_profile_avatar"/>
+            <br />
+            <br />
+        </div>
+        <div class="col">
+            <br />
+            <br />
+            <p><a class="fa fa-comment-o"></a> <b>{{ user.profile.questions }}</b> questions</p>
+            <p><a class="fa fa-comments-o"></a> <b>{{ user.profile.answers }}</b> answers</p>
+            <p><a class="fa fa-check-square-o"></a> <b>{{ user.profile.solutions }}</b> solutions</p>
+            <p><a class="fa fa-thumbs-o-up"></a> <b>{{ user.profile.vote_counter }}</b> votes</p>
+        </div>
+        <div class="col" id="donutchart" style="width: 500px; height: 300px;"></div>
 
-    <img src="/{{ user.profile.avatar }}" height="200" width="200"/>
-    <p>{{ user.email }}</p>
-    <p>{{ user.profile.questions }} questions</p>
-    <p>{{ user.profile.answers }} answers</p>
-    <p>{{ user.profile.solutions }} solutions</p>
-    <p>{{ user.profile.votes }} votes</p>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <p>QUESTIONS</p>
+            <ul>
+            {% for question in user.question_set.all %}
+                <li><a href="{% url 'questions:question_detail' question.id %}">{{ question }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <p>ANSWERS</p>
+            <ul>
+            {% for answer in user.answer_set.all %}
+                <li><a href="{% url 'questions:question_detail' answer.id %}">{{ answer }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 <br />
 
+    <!--&lt;!&ndash; Button trigger modal &ndash;&gt;-->
+    <!--<button id="btn_questions" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">-->
+      <!--Questions-->
+    <!--</button>-->
+
+
+<script>
+
+    // let btn_questions = document.getElementById("btn_questions");
+    // let title = document.getElementById("exampleModalLongTitle");
+    // // console.log(title.innerText);
+    // let body = document.getElementById("exampleModalLongBody");
+    // let list = document.createElement("ul");
+    // btn_questions.onclick = function() {
+    //     body.innerHTML = '';
+    //     http_get("#", function(data) {
+    //         for (let i=0; i < data.questions.length; ++i) {
+    //             // console.log(data.questions[i].title);
+    //             let list_item = document.createElement("li");
+    //             list_item.innerText = data.questions[i].title;
+    //             list.appendChild(list_item);
+    //         }
+    //             body.appendChild(list);
+    //             title.innerText = 'Questions'
+    //     })
+    // }
+
+
+</script>
 
 {% endblock %}

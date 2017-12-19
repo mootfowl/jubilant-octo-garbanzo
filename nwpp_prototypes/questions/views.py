@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group, Permission
+from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import datetime
-from .models import Question, Answer
+import json
+from .models import Question, Answer, Badge
 
 
 def signin(request):
@@ -50,13 +53,14 @@ def profile(request, user_id):
     return render(request, 'questions/profile.html', {'user': user})
 
 
-# def index(request):
-#     questions = Question.objects.order_by('-date_time')
-#     return render(request, 'questions/index.html', {'questions': questions})
+# def profile_questions(request, user_id):
+#     user = User.objects.get(pk=user_id)
+#     questions = user.question_set.all().values()
+#     return JsonResponse({'questions': list(questions)})
 
 
 def index(request):  # w/Paginator
-    question_list = Question.objects.order_by('-date_time')
+    question_list = Question.objects.order_by('-created')
     paginator = Paginator(question_list, 7) # Show 5 questions per page
 
     page = request.GET.get('page')
@@ -76,7 +80,7 @@ def question_detail(request, question_id):
     question = Question.objects.get(pk=question_id)
     question.views += 1
     question.save()
-    answers = question.answer_set.order_by('-date_time')  # related objects reference <object_name>_set.all()
+    answers = question.answer_set.order_by('-created')  # related objects reference <object_name>_set.all()
     question_tags = question.tags.all()
     tags = []
     for tag in question_tags:
@@ -88,6 +92,15 @@ def question_detail(request, question_id):
 
 def new_question(request):
     return render(request, 'questions/new_question.html', {})
+
+
+# def badge_check(user):  ## move to user.profile method?
+#     badges = Badge.objects.all()
+#     for badge in badges:
+#         if user.profile.questions >= badge.question_requirement:
+#             return badge
+#         else:
+#             return
 
 
 def post_question(request):
@@ -103,7 +116,7 @@ def post_question(request):
     for tag in tags:
         question.tags.add(tag)
     question.save()
-    return HttpResponseRedirect(reverse('questions:index'))
+    return index(request)
 
 
 def post_answer(request):
@@ -119,9 +132,14 @@ def post_answer(request):
 
 def search(request):
     terms = request.POST['search'].split()
-    questions = Question.objects.filter(tags__name__in=terms, body__name__in=terms).distinct()
-    # print(questions)
+    questions = Question.objects.filter(tags__name__in=terms).distinct()
     return render(request, 'questions/search.html', {'terms': terms, 'questions': questions})
+
+
+# def search(request):
+#     terms = request.POST['search'].split()
+#     questions = Question.objects.filter(tags__name__in=terms, body__search=terms).distinct()
+#     return render(request, 'questions/search.html', {'terms': terms, 'questions': questions})
 
 
 def solve(request, answer_id):
@@ -134,4 +152,31 @@ def solve(request, answer_id):
     question.save()
     answer.solution = True
     answer.save()
+    return HttpResponseRedirect(f'../question_detail/{question.id}')
+
+
+def tags(request):
+    all_tags = Tag.objects.all()
+    return render(request, 'questions/tags.html', {'all_tags': all_tags})
+
+
+def voteup(request, answer_id):
+    answer = Answer.objects.get(pk=answer_id)
+    answer.vote_counter += 1
+    answer.save()
+    question = answer.question
+    user = request.user
+    user.profile.vote_counter += 1
+    user.profile.save()
+    return HttpResponseRedirect(f'../question_detail/{question.id}')
+
+
+def votedown(request, answer_id):
+    answer = Answer.objects.get(pk=answer_id)
+    answer.vote_counter -= 1
+    answer.save()
+    question = answer.question
+    user = request.user
+    user.profile.vote_counter += 1  # votes up or down still increase total user.profile vote_counter
+    user.profile.save()
     return HttpResponseRedirect(f'../question_detail/{question.id}')

@@ -6,13 +6,16 @@
 <br />
 <div class="container" id="signin_wrapper">
     <h4>SIGN IN</h4>
-    <br />
-    <form action="{% url 'questions:signin_attempt' %}" method="post">
-        {% csrf_token %}
-        <p><input type="text" placeholder="username" name="username" class="form-control" required/></p>
-        <p><input type="password" placeholder="password" name="password" class="form-control" required/></p>
-        <button type="submit" class="btn btn-outline-info my-2 my-sm-0"><b>signin</b></button>
-    </form>
+    <div class="row">
+        <div class="col-lg-7">
+            <form action="{% url 'questions:signin_attempt' %}" method="post">
+                {% csrf_token %}
+                <p><input type="text" placeholder="username" name="username" class="form-control" required/></p>
+                <p><input type="password" placeholder="password" name="password" class="form-control" required/></p>
+                <button type="submit" class="btn btn-outline-info my-2 my-sm-0"><b>signin</b></button>
+            </form>
+        </div>
+    </div>
 </div>
 <br />
 

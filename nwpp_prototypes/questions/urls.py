@@ -22,6 +22,7 @@ from . import views
 app_name = 'questions'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^tags/$', views.tags, name='tags'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^signin_attempt/$', views.signin_attempt, name='signin_attempt'),
     url(r'^signout/$', views.signout, name='signout'),
@@ -32,6 +33,9 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^activate/$', views.activate, name='activate'),
     url(r'^profile/(?P<user_id>[0-9]+)$', views.profile, name='profile'),
+    # url(r'^profile_questions/(?P<user_id>[0-9]+)$', views.profile_questions, name='profile_questions'),
     url(r'^search/$', views.search, name='search'),
     url(r'^solve/(?P<answer_id>[0-9]+)$', views.solve, name='solve'),
+    url(r'^voteup/(?P<answer_id>[0-9]+)$', views.voteup, name='voteup'),
+    url(r'^votedown/(?P<answer_id>[0-9]+)$', views.votedown, name='votedown'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

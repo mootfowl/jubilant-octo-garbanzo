@@ -6,25 +6,39 @@
 <div class="container">
     {% if request.user.is_authenticated %}
         <div id="ask_question">
-            <a href="{% url 'questions:new_question' %}" class="btn btn-info btn-lg">ASK A QUESTION</a>
+            <a href="{% url 'questions:new_question' %}" class="btn btn-outline-info btn-lg"><span class="fa fa-comment-o"></span> ASK A QUESTION</a>
         </div>
     {% endif %}
 
     {% for question in questions %}
+        <div id="question_wrapper">
+            <div>
+                <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
+            </div>
+            <div id="question_container">
+                <div id="question_data">
+                    {{ question.answer_set.count }} answers | {{ question.views }} views |
+                    by <a href="{% url 'questions:profile' question.user.id %}"> {{ question.user }} </a> on <i>{{ question.created }}</i>
+                </div>
+                <div id="question_header">
+                    <a href="{% url 'questions:question_detail' question.id %}" class="text_link">
+                        <div><b>{{ question.title }}</b>
+                        <br /> tags:
+                        {% for tag in question.tags.all %}
+                            {{ tag }}
+                        {% endfor %}
+                        </div>
+                    </a>
+                </div>
 
-        <div class="question_container">
-            <a href="{% url 'questions:question_detail' question.id %}" id="question_li" style="text-decoration: none">
-                <div><b>{{ question.title }}</b>
-                <br /> by {{ question.user }} | <i>{{ question.date_time}}</i>
-                <br /> {{ question.answer_set.count }} answers
-                <br /> {{ question.views }} views
-                <br /> tags: {{ question.tags }}</div>
-            </a>
-            {% if question.solved == True %}
-                <div id="solved_indicator">✓</div>
-            {% endif %}
+                {% if question.solved == True %}
+                    <div class="solved_indicator" id="solved">✓</div>
+                {% else %}
+                    <div class="unsolved_indicator" id="unsolved">?</div>
+                {% endif %}
+
+            </div>
         </div>
-
     {% endfor %}
 
     <br />

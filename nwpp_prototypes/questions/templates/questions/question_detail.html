@@ -8,12 +8,12 @@
         <div class="col-sm-8">
             <h3>{{ question.title }}</h3>
             <p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
-                | published {{ question.date_time }}
+                | published {{ question.created }}
                 {% if request.user == question.user %}
                 | EDIT
                 {% endif %}
             </p>
-            <p id="question_body">{{ question.body }}</p>
+            <p id="question_body">{{ question.body|safe }}</p>
 
             <p> tags:
                 {% for tag in tags %}
@@ -25,16 +25,28 @@
                 <h5>ANSWERS</h5>
                 <ul>
                     {% for answer in answers %}
-                        <li>
-                            <p>< {{ answer.votes }} > votes
-                           {% if request.user == question.user and question.solved == False %}
-                                | <a href="{% url 'questions:solve' answer.id %}"><span>SOLUTION</span></a></p>
-                            {% endif %}
+                        {% if answer.solution == True %}
+                            <li class="solution_wrapper" style="list-style: none">
+                        {% else %}
+                            <li class="answer_wrapper" style="list-style: none">
+                        {% endif %}
+                            <div id="solution_indicator" class="dp_tooltip">
+                                {% if request.user == question.user and question.solved == False %}
+                                    <span class="tooltip_text">Click to select your solution.</span>
+                                    <a href="{% url 'questions:solve' answer.id %}"><span class="fa fa-check-circle-o"></span></a>
+                                {% elif question.solved and answer.solution == True %}
+                                    <span class="fa fa-check-circle-o" style="color: #9aca27"></span></a>
+                                {% endif %}
+                            </div>
+                                <p class="answer_data"><a href="{% url 'questions:voteup' answer.id %}"><span class="fa fa-arrow-circle-o-up"></span></a>
+                                    <b>{{ answer.vote_counter }}</b>
+                                    <a href="{% url 'questions:votedown' answer.id %}"><span class="fa fa-arrow-circle-o-down"></span></a>
+                                </p>
 
-                            <p><i>{{ answer.body }}</i></p>
-                            <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
-                                | posted {{ answer.date_time }} </p>
-                        </li>
+                                <p><i>{{ answer.body }}</i></p>
+                                <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
+                                    | posted {{ answer.created }} </p>
+                            </li>
                     {% endfor %}
                 </ul>
 
@@ -45,8 +57,8 @@
                     <form action="{% url 'questions:post_answer' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" value="{{ question.id }}" name="question_id"/>
-                        <p><textarea rows="10" cols="75" placeholder="answer" name="answer" id="new_answer" required></textarea></p>
-                        <p><button type="submit">ANSWER</button> </p>
+                        <p><textarea rows="10" cols="75" placeholder="Add your own answer to the conversation." name="answer" id="new_answer" required></textarea></p>
+                        <p><button type="submit" class="btn btn-outline-info btn-lg">ANSWER</button> </p>
                     </form>
                 </div>
             {% endif %}
