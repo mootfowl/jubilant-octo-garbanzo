@@ -9,7 +9,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import datetime
 import json
-from .models import Question, Answer, Badge
+from .models import Question, Answer, Badge, Profile
+from .forms import QuestionForm, AnswerForm
 
 
 def signin(request):
@@ -41,10 +42,13 @@ def register(request):
 
 def activate(request):
     user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+    group = Group.objects.get(name='Contributors')
     user.groups.add(group)
     user.save()
+    user_profile = Profile(user=user)
+    user_profile.save()
     login(request, user)
-    return HttpResponseRedirect(reverse('wordstress:index'))
+    return HttpResponseRedirect(reverse('questions:index'))
 
 
 def profile(request, user_id):
@@ -85,22 +89,36 @@ def question_detail(request, question_id):
     tags = []
     for tag in question_tags:
         tags.append(tag)
-    # print(tags)
     related = Question.objects.filter(tags__name__in=tags).distinct().exclude(pk=question_id)
-    return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related})
+    form = AnswerForm()
+    return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related, 'form': form})
 
 
 def new_question(request):
-    return render(request, 'questions/new_question.html', {})
+    form = QuestionForm()
+    return render(request, 'questions/new_question.html', {'form': form})
 
 
-# def badge_check(user):  ## move to user.profile method?
-#     badges = Badge.objects.all()
-#     for badge in badges:
-#         if user.profile.questions >= badge.question_requirement:
-#             return badge
-#         else:
-#             return
+def edit_question(request, question_id):
+    question = Question.objects.get(pk=question_id)
+    form = QuestionForm(instance=question)
+    if form.is_valid():
+        form.save()
+    # need to figure out how to render new_question.html with a "SAVE" button instead of "ASK"
+    # also need a save_question url
+    return render(request, 'questions/new_question.html', {'question': question, 'form': form, 'edit': True})
+
+
+def save_question(request, question_id):
+    question = Question.objects.get(pk=question_id)
+    title = request.POST['title']
+    body = request.POST['body']
+    tags = request.POST['tags'].split(', ')
+    question.title = title
+    question.body = body
+    question.tags = tags
+    question.save()
+    return question_detail(request, question_id)
 
 
 def post_question(request):
@@ -123,7 +141,7 @@ def post_answer(request):
     user = request.user
     user.profile.answers += 1
     user.profile.save()
-    answer = request.POST['answer']
+    answer = request.POST['body']
     question = Question.objects.get(pk=request.POST['question_id'])
     new_answer = Answer(user=user, question=question, body=answer)
     new_answer.save()
@@ -180,3 +198,12 @@ def votedown(request, answer_id):
     user.profile.vote_counter += 1  # votes up or down still increase total user.profile vote_counter
     user.profile.save()
     return HttpResponseRedirect(f'../question_detail/{question.id}')
+
+
+# def badge_check(user):  ## move to user.profile method?
+#     badges = Badge.objects.all()
+#     for badge in badges:
+#         if user.profile.questions >= badge.question_requirement:
+#             return badge
+#         else:
+#             return

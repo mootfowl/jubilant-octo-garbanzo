@@ -146,3 +146,31 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+#########################
+## django-ckeditor config
+#########################
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'theme': 'default',
+        'toolbar': [
+            ['Undo', 'Redo', 'Bold', 'Italic', 'Strike', 'BulletedList', 'NumberedList', 'Link',
+            'Unlink', 'Format', 'RemoveFormat', 'Smiley', 'Image', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+             'Outdent', 'Indent'],
+        ],
+        'format_tags': 'p;h2;h3;h4;h5;h6',
+        'removeButtons': 'BrowseServer',
+        'forcePasteAsPlainText': True,
+        'stylesSet': [],
+        'autoGrow_minHeight': 200,
+        'bodyClass': 'rte',
+        'width': '100%',
+    },
+}
+

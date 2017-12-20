@@ -12,15 +12,17 @@
             ['Task', 'Quantity'],
             ['Questions', {{ user.profile.questions }}],
             ['Answers', {{ user.profile.answers }}],
+            ['Comments', {{ user.profile.comments }}],
             ['Solutions',  {{ user.profile.solutions }}],
             ['Votes', {{ user.profile.vote_counter }}],
+            ['Flags', {{ user.profile.flags }}],
         ]);
 
         let options = {
             // title: 'ACTIVITY',
             pieHole: 0.4,
             backgroundColor: 'transparent',
-            colors: ['#9aca27', '#f7a300', '#4899de', '#cb4154'],
+            colors: ['#9aca27', '#f7a300', '', '#4899de', '#cb4154', ''],
             legend: {'position': 'none'},
         };
 
@@ -45,8 +47,10 @@
             <br />
             <p><a class="fa fa-comment-o"></a> <b>{{ user.profile.questions }}</b> questions</p>
             <p><a class="fa fa-comments-o"></a> <b>{{ user.profile.answers }}</b> answers</p>
+            <p><a class="fa fa-commenting-o"></a> <b>{{ user.profile.comments }}</b> comments</p>
             <p><a class="fa fa-check-square-o"></a> <b>{{ user.profile.solutions }}</b> solutions</p>
             <p><a class="fa fa-thumbs-o-up"></a> <b>{{ user.profile.vote_counter }}</b> votes</p>
+            <p><a class="fa fa-flag-o"></a> <b>{{ user.profile.flags }}</b> flags</p>
         </div>
         <div class="col" id="donutchart" style="width: 500px; height: 300px;"></div>
 
@@ -54,22 +58,27 @@
 
 
     <div class="row">
-        <div class="col-sm-6">
-            <p>QUESTIONS</p>
-            <ul>
-            {% for question in user.question_set.all %}
-                <li><a href="{% url 'questions:question_detail' question.id %}">{{ question }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
-        <div class="col-sm-6">
-            <p>ANSWERS</p>
-            <ul>
-            {% for answer in user.answer_set.all %}
-                <li><a href="{% url 'questions:question_detail' answer.id %}">{{ answer }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
+        {% if user.question_set.all.count > 0 %}
+            <div class="col-sm-6">
+                <p>QUESTIONS</p>
+                <ul>
+                {% for question in user.question_set.all %}
+                    <li><a href="{% url 'questions:question_detail' question.id %}">{{ question }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if user.answer_set.all.count > 0 %}
+            <div class="col-sm-6">
+                <p>ANSWERS</p>
+                <ul>
+                {% for answer in user.answer_set.all %}
+                    <li><a href="{% url 'questions:question_detail' answer.id %}">{{ answer }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
     </div>
 </div>
 <br />

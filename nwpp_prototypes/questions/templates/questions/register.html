@@ -2,15 +2,22 @@
 
 
 {% block content %}
-NEW ACCOUNT
-<div id="register_wrapper">
-    <form action="{% url 'questions:activate' %}" method="post">
-        {% csrf_token %}
-        <p><input type="text" placeholder="username" name="username" id="create_username" required pattern="[\w\W]+"/></p>
-        <p><input type="text" placeholder="email" name="email" id="create_email" required pattern="[\w\W]+"/></p>
-        <p><input type="password" placeholder="password" name="password" id="create_password" required pattern="[\w\W]+"/></p>
-        <button type="submit" id="btn_signin"><b>ACTIVATE</b></button>
-    </form>
+
+<br />
+<div class="container">
+    <h4>NEW ACCOUNT</h4>
+    <div class="row">
+        <div class="col-lg-7">
+            <form action="{% url 'questions:activate' %}" method="post">
+                {% csrf_token %}
+                <p><input type="text" placeholder="username" name="username" class="form-control" required pattern="[\w\W]+"/></p>
+                <p><input type="text" placeholder="email" name="email" class="form-control" required pattern="[\w\W]+"/></p>
+                <p><input type="password" placeholder="password" name="password" class="form-control" required pattern="[\w\W]+"/></p>
+                <button type="submit" class="btn btn-outline-info my-2 my-sm-0"><b>ACTIVATE</b></button>
+            </form>
+        </div>
+    </div>
 </div>
+<br />
 
 {% endblock %}

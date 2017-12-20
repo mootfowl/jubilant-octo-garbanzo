@@ -1,5 +1,41 @@
 {% extends 'questions/base.html' %}
 
+{% block feature %}
+
+    {% if not request.user.is_authenticated %}
+
+        <br />
+        <div class="container">
+            <h5>HOW IT WORKS</h5>
+            <hr />
+            <div class="row" id="how_it_works">
+                <div class="col-md-3">
+                    <span class="fa fa-comment-o" style="font-size: 4em"></span>
+                    <h5>ASK</h5>
+                </div>
+                <div class="col-md-3">
+                    <span class="fa fa-comments-o" style="font-size: 4em"></span>
+                    <h5>ANSWER</h5>
+                </div>
+                <div class="col-md-3">
+                    <span class="fa fa-check-circle-o" style="font-size: 4em"></span>
+                    <h5>SOLVE</h5>
+                </div>
+                <div class="col-sm-2">
+                    <a href="{% url 'questions:register' %}">
+                        <button class="btn btn-outline-info my-2 my-sm-0" id="feature_signup"><b>SIGN UP</b></button>
+                    </a>
+                </div>
+            </div>
+            <hr />
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}
+
+
 {% block content %}
 
 <br />
@@ -13,7 +49,9 @@
     {% for question in questions %}
         <div id="question_wrapper">
             <div>
-                <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
+                <a href="{% url 'questions:profile' question.user.id %}">
+                    <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
+                </a>
             </div>
             <div id="question_container">
                 <div id="question_data">

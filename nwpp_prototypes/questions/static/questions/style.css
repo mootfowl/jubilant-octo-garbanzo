@@ -4,40 +4,153 @@ body, html {
     background-color: #f8f9fa!important;
 }
 
-/*#btn_ask_question {*/
-    /*border: 1px solid black;*/
-    /*width: 250px;*/
-/*}*/
-
-.question_container {
-    border: 1px solid black;
-    border-radius: 5px;
+#how_it_works {
+    position: relative;
     padding: 20px;
-    margin: 20px;
-    background-color: white;
+    width: 100%;
 }
 
-.question_container:hover {
+#how_it_works .col-md-3 {
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    border: 3px solid lightgrey;
+}
+
+#how_it_works .col-md-3:hover {
+    color: #4899de;
+    border: 3px solid #4899de;
+}
+
+#feature_signup {
+    position: relative;
+    top: 50px;
+}
+
+/* index.html QUESTIONS */
+
+#question_wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+
+#avatar_thumbnail {
+    position: relative;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+#avatar_thumbnail:hover {
+    /*border: 2px solid cornflowerblue;*/
+    box-shadow: 0 0 10px #4899de;
+}
+
+#question_container {
+    position: relative;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin-left: 20px;
+    background-color: white;
+    width: 100%;
+}
+
+#question_container:hover {
     box-shadow: 0 0 10px #4899de;
     border: 1px solid cornflowerblue;
 }
 
-#solved_indicator {
-    float: right;
+#question_data {
+    padding-left: 50px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: inherit;
+    width: 100%;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid grey;
+}
+
+#question_data::before {
+    position: absolute;
+    top: 16px;
+    right: 100%;
+    left: -6px;
+    display: block;
+    width: 10px;
+    height: 10px;
+    content: " ";
+    transform: rotate(-45deg);
+    background-color: #f8f9fa;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+
+#question_header {
+    padding: 20px;
+}
+
+.text_link {
+    color: black;
+}
+
+.text_link:hover {
+    text-decoration: none;
+    color: dimgray;
+}
+
+#question_div {
+    color: black;
+}
+
+#question_div:hover {
+    text-decoration: none;
+    color: dimgray;
+}
+
+.unsolved_indicator {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-weight: bold;
-    line-height: 35px;
+    line-height: 24px;
     text-align: center;
-    font-size: 2em;
-    top: -98px;
-    /*left: -38px;*/
+    font-size: 1.5em;
+    border: 3px solid darkgrey;
+    color: darkgrey;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.solved_indicator {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    line-height: 24px;
+    text-align: center;
+    font-size: 1.5em;
     border: 3px solid #9aca27;
     color: #9aca27;
     background-color: white;
     border-radius: 5px;
     z-index: 1;
+}
+
+#solved {
+    position: absolute;
+    top: 7px;
+    left: 8px;
+}
+
+#unsolved {
+    position: absolute;
+    top: 7px;
+    left: 8px;
 }
 
 #site_logo {
@@ -55,6 +168,14 @@ body, html {
     position: relative;
     top: 34px;
     left: -59px;
+}
+
+#conduit_icon {
+    font-size: 4em;
+    position: relative;
+    top: 7px;
+    left: 17px;
+    color: rgba(0, 0, 0, .5)
 }
 
 #global_search {
@@ -125,6 +246,12 @@ body, html {
     background-color: #e6e2da;
 }
 
+/* PROFILE PAGE */
+#user_profile_avatar {
+    border: 5px solid white;
+    /*border-radius: 50%;*/
+}
+
 #footer {
     /*margin-top: 20px;*/
     /*padding: 40px;*/
@@ -132,4 +259,83 @@ body, html {
     width: 100%;
     color: white;
     background-color: black;
+}
+
+.answer_wrapper {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 20px;
+    margin: 20px;
+}
+
+.answer_data {
+    font-size: 1.8em;
+}
+
+.solution_wrapper {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 3px solid #9aca27;
+    padding: 20px;
+    margin: 20px;
+    /*color: #9aca27;*/
+}
+
+#solution_indicator {
+    position: absolute;
+    left: 20px;
+    font-size: 3em;
+}
+
+#donutchart {
+    background-color: transparent;
+}
+
+/* Tooltip container */
+.dp_tooltip {
+    /*position: relative;*/
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black; !* If you want dots under the hoverable text *!*/
+}
+
+/* Tooltip text */
+.dp_tooltip .tooltip_text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    font-size: .3em;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.dp_tooltip .tooltip_text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.dp_tooltip:hover .tooltip_text {
+    visibility: visible;
+    opacity: 1;
 }

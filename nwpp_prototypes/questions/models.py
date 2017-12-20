@@ -43,8 +43,10 @@ class Profile(models.Model):  # Extends base User class with additional fields
     avatar = models.ImageField(upload_to="questions/media/", blank=True, null=True)
     questions = models.IntegerField(default=0)
     answers = models.IntegerField(default=0)
+    comments = models.IntegerField(default=0)
     solutions = models.IntegerField(default=0)
     vote_counter = models.IntegerField(default=0)
+    flags = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} - Profile'

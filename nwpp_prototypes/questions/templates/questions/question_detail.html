@@ -10,7 +10,7 @@
             <p>by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
                 | published {{ question.created }}
                 {% if request.user == question.user %}
-                | EDIT
+                | <a href="{% url 'questions:edit_question' question.id %}">EDIT</a>
                 {% endif %}
             </p>
             <p id="question_body">{{ question.body|safe }}</p>
@@ -22,6 +22,7 @@
 
             {% if answers.count > 0 %}
 
+                <hr >
                 <h5>ANSWERS</h5>
                 <ul>
                     {% for answer in answers %}
@@ -43,7 +44,7 @@
                                     <a href="{% url 'questions:votedown' answer.id %}"><span class="fa fa-arrow-circle-o-down"></span></a>
                                 </p>
 
-                                <p><i>{{ answer.body }}</i></p>
+                                <p><i>{{ answer.body|safe }}</i></p>
                                 <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
                                     | posted {{ answer.created }} </p>
                             </li>
@@ -51,13 +52,17 @@
                 </ul>
 
             {% endif %}
-
+<hr >
             {% if request.user.is_authenticated %}
                 <div id="answer_wrapper">
+                    <h5>New Answer</h5>
                     <form action="{% url 'questions:post_answer' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" value="{{ question.id }}" name="question_id"/>
-                        <p><textarea rows="10" cols="75" placeholder="Add your own answer to the conversation." name="answer" id="new_answer" required></textarea></p>
+                        {{ form.media }}
+                        {{ form.body }}
+                        <br />
+                        <br />
                         <p><button type="submit" class="btn btn-outline-info btn-lg">ANSWER</button> </p>
                     </form>
                 </div>

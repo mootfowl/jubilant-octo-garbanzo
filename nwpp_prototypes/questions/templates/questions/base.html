@@ -65,7 +65,7 @@
                     {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              {{ user.username }}
+                              {{ request.user.username }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'questions:profile' request.user.id %}">Profile</a>
@@ -109,6 +109,9 @@
 
     <div id="block_background">
 
+        {% block feature %}
+        {% endblock %}
+
         {% block content %}
         {% endblock %}
 
@@ -119,8 +122,8 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <a href="{% url 'questions:index' %}">Q&A</a> |
-                    <a href="{% url 'questions:tags' %}">TAGS</a> |
+                    <a href="{% url 'questions:index' %}">Q&A</a> •
+                    <a href="{% url 'questions:tags' %}">TAGS</a> •
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'questions:signout' %}">SIGN OUT</a>
                     {% else %}
