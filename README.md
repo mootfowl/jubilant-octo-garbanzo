@@ -1,8 +1,4 @@
-# jubilant-octo-garbanzo
-
-## Name
-
-conduit
+# source.training - hivemind
 
 ## Project Overview
 
@@ -21,15 +17,14 @@ A field or button that prompts the user to ask a question is prominently feature
 Time-permitting w/the gamification features, there will need to be a function that is run whenever activity is saved to the platform that compares the user’s stats (# of questions asked/answered, etc.) with success conditions for each type of badge.
 
 ## Data Model
-User (custom implementation):
-* First/Last Names
-* Email address
+Profile:
+* OneToOne (User)
 * Avatar
 * Question count (Integer Field)
 * Answer count
 * Solution count
 * Points
-* Rank (Many to Many)
+* Rank
 * Badges
 
 Question:

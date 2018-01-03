@@ -19,6 +19,7 @@
         {% csrf_token %}
         {{ form.media }}
         <p>{{ form.title }}</p>
+        <p>{{ form.category }}</p>
         <p>{{ form.body }}</p>
         <p>{{ form.tags }}</p>
     {% if edit %}

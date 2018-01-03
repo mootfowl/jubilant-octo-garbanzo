@@ -6,19 +6,22 @@
 
         <br />
         <div class="container">
-            <h5>HOW IT WORKS</h5>
-            <hr />
             <div class="row" id="how_it_works">
-                <div class="col-md-3">
-                    <span class="fa fa-comment-o" style="font-size: 4em"></span>
+
+                <div class="col-sm-2"><h5>HOW IT WORKS</h5></div>
+                <div class="col-md-2 dp_tooltip">
+                    <span class="tooltip_large">Anyone can ask a question</span>
+                    <span class="fa fa-comment-o" style="font-size: 2em"></span>
                     <h5>ASK</h5>
                 </div>
-                <div class="col-md-3">
-                    <span class="fa fa-comments-o" style="font-size: 4em"></span>
+                <div class="col-md-2 dp_tooltip">
+                    <span class="tooltip_large">Answers can be provided by others</span>
+                    <span class="fa fa-comments-o" style="font-size: 2em"></span>
                     <h5>ANSWER</h5>
                 </div>
-                <div class="col-md-3">
-                    <span class="fa fa-check-circle-o" style="font-size: 4em"></span>
+                <div class="col-md-2 dp_tooltip">
+                    <span class="tooltip_large">Answers are voted on, and a solution is identified</span>
+                    <span class="fa fa-check-circle-o" style="font-size: 2em"></span>
                     <h5>SOLVE</h5>
                 </div>
                 <div class="col-sm-2">
@@ -33,68 +36,104 @@
 
     {% endif %}
 
+    {% if request.user.is_authenticated %}
+
+        <br />
+        <div class="container">
+            <div id="ask_question">
+                <a href="{% url 'questions:new_question' %}" class="btn btn-outline-info btn-lg"><span class="fa fa-comment-o"></span> ASK A QUESTION</a>
+            </div>
+        </div>
+
+
+    {% endif %}
+
 {% endblock %}
 
 
 {% block content %}
 
 <br />
-<div class="container">
-    {% if request.user.is_authenticated %}
-        <div id="ask_question">
-            <a href="{% url 'questions:new_question' %}" class="btn btn-outline-info btn-lg"><span class="fa fa-comment-o"></span> ASK A QUESTION</a>
-        </div>
-    {% endif %}
+<div class="container" id="index_container">
 
-    {% for question in questions %}
-        <div id="question_wrapper">
-            <div>
-                <a href="{% url 'questions:profile' question.user.id %}">
-                    <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
-                </a>
-            </div>
-            <div id="question_container">
-                <div id="question_data">
-                    {{ question.answer_set.count }} answers | {{ question.views }} views |
-                    by <a href="{% url 'questions:profile' question.user.id %}"> {{ question.user }} </a> on <i>{{ question.created }}</i>
-                </div>
-                <div id="question_header">
-                    <a href="{% url 'questions:question_detail' question.id %}" class="text_link">
-                        <div><b>{{ question.title }}</b>
-                        <br /> tags:
-                        {% for tag in question.tags.all %}
-                            {{ tag }}
-                        {% endfor %}
+        <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#all" role="tab">ALL</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#unanswered" role="tab"><span class="fa fa-question-circle-o"></span> UNANSWERED</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#answered" role="tab"><span class="fa fa-check-circle-o"></span> ANSWERED</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="all" role="tabpanel">
+            {% for question in questions %}
+                <div id="question_wrapper">
+                    <div>
+                        <a href="{% url 'questions:profile' question.user.id %}">
+                            <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
+                        </a>
+                    </div>
+                    <div id="question_container">
+                        <div id="question_data">
+                            {{ question.answer_set.count }} answers | {{ question.views }} views |
+                            by <a href="{% url 'questions:profile' question.user.id %}"> {{ question.user }} </a> on <i>{{ question.created }}</i>
                         </div>
-                    </a>
+                        <div id="question_header">
+                            <a href="{% url 'questions:question_detail' question.id %}" class="text_link">
+                                <div><b>{{ question.title }}</b>
+                                <br /> tags:
+                                {% for tag in question.tags.all %}
+                                    {{ tag }}
+                                {% endfor %}
+                                </div>
+                            </a>
+                        </div>
+
+                        {% if question.solved == True %}
+                            <div class="solved_indicator" id="solved">✓</div>
+                        {% else %}
+                            <div class="unsolved_indicator" id="unsolved">?</div>
+                        {% endif %}
+
+                    </div>
                 </div>
+            {% endfor %}
 
-                {% if question.solved == True %}
-                    <div class="solved_indicator" id="solved">✓</div>
-                {% else %}
-                    <div class="unsolved_indicator" id="unsolved">?</div>
-                {% endif %}
+            <br />
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if questions.has_previous %}
+                            <a href="?page={{ questions.previous_page_number }}">previous</a>
+                        {% endif %}
 
-            </div>
+                        <span class="current">
+                            Page {{ questions.number }} of {{ questions.paginator.num_pages }}
+                        </span>
+
+                        {% if questions.has_next %}
+                            <a href="?page={{ questions.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
         </div>
-    {% endfor %}
 
-    <br />
-        <div class="pagination">
-            <span class="step-links">
-                {% if questions.has_previous %}
-                    <a href="?page={{ questions.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}
-                </span>
-
-                {% if questions.has_next %}
-                    <a href="?page={{ questions.next_page_number }}">next</a>
-                {% endif %}
-            </span>
+        <div class="tab-pane" id="unanswered" role="tabpanel">
+            [placeholder]
         </div>
+
+        <div class="tab-pane" id="answered" role="tabpanel">
+            [placeholder]
+        </div>
+
+    </div>
+
+
 <br />
 <br />
 

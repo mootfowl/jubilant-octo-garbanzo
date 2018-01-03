@@ -16,14 +16,18 @@
             ['Solutions',  {{ user.profile.solutions }}],
             ['Votes', {{ user.profile.vote_counter }}],
             ['Flags', {{ user.profile.flags }}],
+            ['Views', {{ user.profile.views }}],
+            ['Searches', {{ user.profile.searches }}],
+            ['Edits', {{ user.profile.edits }}],
         ]);
 
         let options = {
             // title: 'ACTIVITY',
             pieHole: 0.4,
             backgroundColor: 'transparent',
-            colors: ['#9aca27', '#f7a300', '', '#4899de', '#cb4154', ''],
+            colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '', '#4899de', '#663399', 'grey'],
             legend: {'position': 'none'},
+            chartArea: {'left': 10, 'top': 10},
         };
 
         let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -38,19 +42,26 @@
     <div class="row">
         <div class="col">
             <h2>{{ user.username }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
             <img src="/{{ user.profile.avatar }}" height="200" width="200" id="user_profile_avatar"/>
             <br />
             <br />
         </div>
-        <div class="col">
-            <br />
-            <br />
+        <div class="col-sm-2">
             <p><a class="fa fa-comment-o"></a> <b>{{ user.profile.questions }}</b> questions</p>
             <p><a class="fa fa-comments-o"></a> <b>{{ user.profile.answers }}</b> answers</p>
             <p><a class="fa fa-commenting-o"></a> <b>{{ user.profile.comments }}</b> comments</p>
             <p><a class="fa fa-check-square-o"></a> <b>{{ user.profile.solutions }}</b> solutions</p>
             <p><a class="fa fa-thumbs-o-up"></a> <b>{{ user.profile.vote_counter }}</b> votes</p>
+        </div>
+        <div class="col-sm-2">
             <p><a class="fa fa-flag-o"></a> <b>{{ user.profile.flags }}</b> flags</p>
+            <p><a class="fa fa-coffee"></a> <b>{{ user.profile.views }}</b> views</p>
+            <p><a class="fa fa-search"></a> <b>{{ user.profile.searches }}</b> searches</p>
+            <p><a class="fa fa-pencil-square-o"></a> <b>{{ user.profile.edits }}</b> edits</p>
         </div>
         <div class="col" id="donutchart" style="width: 500px; height: 300px;"></div>
 

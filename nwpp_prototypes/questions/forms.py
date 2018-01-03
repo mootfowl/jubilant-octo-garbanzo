@@ -7,7 +7,12 @@ from .models import Question, Answer
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['title', 'body', 'tags']
+        fields = ['title', 'category', 'body', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Title'}),
+            # 'category': forms.Select(attrs={'placeholder': 'Category'}), # <-- This doesn't work...
+            'tags': forms.TextInput(attrs={'placeholder': 'Tags, separated by commas'}),
+        }
 
 
 class AnswerForm(forms.ModelForm):
@@ -15,5 +20,5 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ['body']
 
-class RegistrationForm(forms.Form):
-    username = forms.CharField(label='username', max_length=50)
+
+

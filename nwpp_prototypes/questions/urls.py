@@ -35,9 +35,11 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^activate/$', views.activate, name='activate'),
     url(r'^profile/(?P<user_id>[0-9]+)$', views.profile, name='profile'),
-    # url(r'^profile_questions/(?P<user_id>[0-9]+)$', views.profile_questions, name='profile_questions'),
+    url(r'^edit_profile/(?P<user_id>[0-9]+)$', views.edit_profile, name='edit_profile'),
     url(r'^search/$', views.search, name='search'),
     url(r'^solve/(?P<answer_id>[0-9]+)$', views.solve, name='solve'),
     url(r'^voteup/(?P<answer_id>[0-9]+)$', views.voteup, name='voteup'),
     url(r'^votedown/(?P<answer_id>[0-9]+)$', views.votedown, name='votedown'),
+    url(r'^clear_all/$', views.clear_all, name='clear_all'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

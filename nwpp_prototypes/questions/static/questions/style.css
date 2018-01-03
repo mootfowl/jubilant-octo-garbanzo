@@ -4,32 +4,67 @@ body, html {
     background-color: #f8f9fa!important;
 }
 
+/* NAVBAR */
+
+.notification_message {
+    max-width: 500px;
+    min-width: 300px;
+    padding: 10px;
+}
+
+#global_search {
+    /*float: right;*/
+    /*margin-right: 10%;*/
+    position: relative;
+    /*top: 20px;*/
+}
+
+#global_search_input {
+    height: 45px;
+    padding: 5px;
+    width: 250px;
+    border-radius: 5px;
+}
+
+#global_search_btn {
+    height: 45px;
+}
+
+/* BLOCK FEATURE */
+
 #how_it_works {
     position: relative;
-    padding: 20px;
+    padding: 10px;
     width: 100%;
 }
 
-#how_it_works .col-md-3 {
+#how_it_works .col-sm-2 {
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+#how_it_works .col-md-2 {
     padding: 20px;
     margin: 10px;
     background-color: white;
     border-radius: 5px;
     text-align: center;
-    border: 3px solid lightgrey;
+    border: 2px solid lightgrey;
 }
 
-#how_it_works .col-md-3:hover {
+#how_it_works .col-md-2:hover {
     color: #4899de;
-    border: 3px solid #4899de;
+    border: 2px solid #4899de;
 }
 
 #feature_signup {
-    position: relative;
-    top: 50px;
+    /*position: relative;*/
+    /*top: 50px;*/
 }
 
 /* index.html QUESTIONS */
+
 
 #question_wrapper {
     position: relative;
@@ -51,7 +86,7 @@ body, html {
 
 #question_container {
     position: relative;
-    border: 1px solid black;
+    border: 1px solid grey;
     border-radius: 2px;
     margin-left: 20px;
     background-color: white;
@@ -85,8 +120,8 @@ body, html {
     content: " ";
     transform: rotate(-45deg);
     background-color: #f8f9fa;
-    border-top: 1px solid black;
-    border-left: 1px solid black;
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
 }
 
 #question_header {
@@ -158,6 +193,8 @@ body, html {
     /*margin-bottom: 20px;*/
 }
 
+/* PAGE HEADER OPTIONS */
+
 #hive_hex {
     position: relative;
     top: 22px;
@@ -178,29 +215,11 @@ body, html {
     color: rgba(0, 0, 0, .5)
 }
 
-#global_search {
-    /*float: right;*/
-    /*margin-right: 10%;*/
-    position: relative;
-    /*top: 20px;*/
-}
-
-#global_search_input {
-    height: 45px;
-    padding: 5px;
-    width: 250px;
-    border-radius: 5px;
-}
-
-#global_search_btn {
-    height: 45px;
-}
-
 #page_heading {
     position: relative;
     width: 100%;
     height: 120px;
-    background-image: url("header_background.jpg");
+    background-image: url("hivemind.jpg");
     /*background-position: center;*/
     background-attachment: fixed;
     /*background-size: cover;*/
@@ -222,11 +241,12 @@ body, html {
 }
 
 #title_link:visited {
+    /*color: rgba(252, 135, 59, 1);*/
     color: white;
 }
 
 #title_link:hover {
-    /*color: cornflowerblue;*/
+    /*color: deepskyblue;*/
 }
 
 #title_link {
@@ -252,6 +272,12 @@ body, html {
     /*border-radius: 50%;*/
 }
 
+#donutchart {
+    background-color: transparent;
+}
+
+/* FOOTER */
+
 #footer {
     /*margin-top: 20px;*/
     /*padding: 40px;*/
@@ -261,24 +287,26 @@ body, html {
     background-color: black;
 }
 
+/* QUESTION DETAIL*/
+
 .answer_wrapper {
     background-color: #f8f9fa;
-    border-radius: 5px;
-    border: 1px solid grey;
-    padding: 20px;
-    margin: 20px;
+    border-radius: 2px;
+    border: 1px solid darkgrey;
+    padding: 15px;
+    margin: 15px;
 }
 
 .answer_data {
-    font-size: 1.8em;
+    font-size: 1.5em;
 }
 
 .solution_wrapper {
     background-color: #f8f9fa;
-    border-radius: 5px;
-    border: 3px solid #9aca27;
-    padding: 20px;
-    margin: 20px;
+    border-radius: 2px;
+    border: 1px solid #9aca27;
+    padding: 15px;
+    margin: 15px;
     /*color: #9aca27;*/
 }
 
@@ -288,9 +316,7 @@ body, html {
     font-size: 3em;
 }
 
-#donutchart {
-    background-color: transparent;
-}
+/* TOOLTIPS */
 
 /* Tooltip container */
 .dp_tooltip {
@@ -336,6 +362,44 @@ body, html {
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .dp_tooltip:hover .tooltip_text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dp_tooltip .tooltip_large {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.dp_tooltip .tooltip_large::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.dp_tooltip:hover .tooltip_large {
     visibility: visible;
     opacity: 1;
 }

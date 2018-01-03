@@ -6,9 +6,18 @@
 <div class="container">
     <h2>Tags</h2>
     <p>[placeholder]</p>
-    <p>{{ all_tags }}</p>
-
+    <ul>
+        {% for category in categories %}
+            <li>{{ category }}</li>
+        {% endfor %}
     </ul>
+
+    <ul>
+        {% for tag in all_tags %}
+            <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
+
 </div>
 <br />
 
