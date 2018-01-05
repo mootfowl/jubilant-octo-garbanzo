@@ -41,5 +41,8 @@ urlpatterns = [
     url(r'^voteup/(?P<answer_id>[0-9]+)$', views.voteup, name='voteup'),
     url(r'^votedown/(?P<answer_id>[0-9]+)$', views.votedown, name='votedown'),
     url(r'^clear_all/$', views.clear_all, name='clear_all'),
+    url(r'^flag/$', views.flag, name='flag'),
+    url(r'^new_bookmark/(?P<question_id>[0-9]+)$', views.new_bookmark, name='new_bookmark'),
+    url(r'^bookmarks/(?P<user_id>[0-9]+)$', views.bookmarks, name='bookmarks'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

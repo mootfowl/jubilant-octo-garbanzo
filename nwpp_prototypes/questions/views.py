@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import datetime
 import json
-from .models import Question, Answer, Badge, Profile, Notification, Category, Vote
+from .models import Question, Answer, Comment, Badge, Profile, Notification, Category, Vote, Flag, Bookmark
 from .forms import QuestionForm, AnswerForm
 
 
@@ -57,14 +57,26 @@ def profile(request, user_id):
     return render(request, 'questions/profile.html', {'user': user})
 
 
-def edit_profile(request, user_id):
+def new_bookmark(request, question_id):
+    question = Question.objects.get(pk=question_id)
+    bookmark = Bookmark(user=request.user, question=question)
+    bookmark.save()
+    return HttpResponse('bookmarked!')
+
+
+def bookmarks(request, user_id):
+    return render(request, 'questions/bookmarks.html', {})
+
+
+def edit_profile(request, user_id):  # TBI
     user = User.objects.get(pk=user_id)
     profile = user.profile
+    pass
 
 
 def index(request):  # w/Paginator
     question_list = Question.objects.order_by('-created')
-    paginator = Paginator(question_list, 20) # Show 20 questions per page
+    paginator = Paginator(question_list, 15) # Show 15 questions per page
     page = request.GET.get('page')
     try:
         questions = paginator.page(page)
@@ -97,7 +109,15 @@ def question_detail(request, question_id):
         tags.append(tag)
     related = Question.objects.filter(tags__name__in=tags).distinct().exclude(pk=question_id)
     form = AnswerForm()
-    return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related, 'form': form})
+    # bookmark_ids = []
+    # for bookmark in request.user.bookmark_set.all():
+    #     bookmark_ids.append(bookmark.question.id)
+    # print(f'bookmark ids = {bookmark_ids}')
+    # print(f'id = {question_id}')
+    # bookmark = int(question_id) in bookmark_ids
+    bookmark = question.bookmark_check(request.user)  # either True or False
+    # print(bookmark)
+    return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related, 'form': form, 'bookmark': bookmark})
 
 
 def new_question(request):
@@ -241,7 +261,26 @@ def flag_check(request):
 
 
 def flag(request):
-    pass
+    type = request.POST['object_type']
+    # print(type)
+    id = int(request.POST['object_id'])
+    reason = request.POST['reason']
+    body = request.POST['body']
+    if type == 'q':
+        question = Question.objects.get(pk=id)
+        flag = Flag(user=request.user, flag_type=type, question=question, reason=reason, body=body)
+        flag.save()
+    elif type == 'a':
+        answer = Answer.objects.get(pk=id)
+        flag = Flag(user=request.user, flag_type=type, answer=answer, reason=reason, body=body)
+        flag.save()
+        print(answer.flag_set.all().count())
+        # use .flag_set.all().count() to test number of flags per object, and determine if it should be archived/deleted/locked
+    else:
+        comment = Comment.objects.get(pk=id)
+        flag = Flag(user=request.user, flag_type=type, comment=comment, reason=reason, body=body)
+        flag.save()
+    return HttpResponse(f"FLAG'd, yo! \n type: {type} \n id: {id} \n reason: {reason} \n body: {body}")
 
 
 # def badge_check(user):  ## move to user.profile method?

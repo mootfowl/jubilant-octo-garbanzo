@@ -16,7 +16,6 @@
             ['Solutions',  {{ user.profile.solutions }}],
             ['Votes', {{ user.profile.vote_counter }}],
             ['Flags', {{ user.profile.flags }}],
-            ['Views', {{ user.profile.views }}],
             ['Searches', {{ user.profile.searches }}],
             ['Edits', {{ user.profile.edits }}],
         ]);
@@ -25,7 +24,7 @@
             // title: 'ACTIVITY',
             pieHole: 0.4,
             backgroundColor: 'transparent',
-            colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '', '#4899de', '#663399', 'grey'],
+            colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '#4899de', '#663399', 'grey'],
             legend: {'position': 'none'},
             chartArea: {'left': 10, 'top': 10},
         };
@@ -42,6 +41,7 @@
     <div class="row">
         <div class="col">
             <h2>{{ user.username }}</h2>
+            <hr />
         </div>
     </div>
     <div class="row">
@@ -59,9 +59,9 @@
         </div>
         <div class="col-sm-2">
             <p><a class="fa fa-flag-o"></a> <b>{{ user.profile.flags }}</b> flags</p>
-            <p><a class="fa fa-coffee"></a> <b>{{ user.profile.views }}</b> views</p>
             <p><a class="fa fa-search"></a> <b>{{ user.profile.searches }}</b> searches</p>
             <p><a class="fa fa-pencil-square-o"></a> <b>{{ user.profile.edits }}</b> edits</p>
+            <p><a class="fa fa-coffee"></a> <b>{{ user.profile.views }}</b> views</p>
         </div>
         <div class="col" id="donutchart" style="width: 500px; height: 300px;"></div>
 

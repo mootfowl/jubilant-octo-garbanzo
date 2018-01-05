@@ -24,6 +24,14 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def icon(self):  # This is...clunky, and hard-coded (and thus limiting). But it works...
+        if self.title == 'Fundamentals':
+            return '<span class="fa fa-th-large"></span>'
+        elif self.title == 'Operations':
+            return '<span class="fa fa-cog"></span>'
+        elif self.title == 'Planning':
+            return '<span class="fa fa-line-chart"></span>'
+
 
 class Question(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -38,6 +46,14 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
+
+    def bookmark_check(self, user):
+        bookmark_ids = []
+        for bookmark in user.bookmark_set.all():
+            bookmark_ids.append(bookmark.question.id)
+        # print(bookmark_ids)
+        # print(self.id)
+        return self.id in bookmark_ids
 
 
 class Answer(models.Model):
@@ -88,6 +104,7 @@ class Vote(models.Model):
         (up, 'Up voted'),
         (down, 'Down voted'),
     )
+
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
@@ -114,15 +131,16 @@ class Flag(models.Model):
         (a, 'Answer'),
         (c, 'Comment'),
     )
+
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    flag_type = models.CharField(max_length=1, choices=flag_types)
     date = models.DateTimeField(auto_now_add=True)
     question = models.ForeignKey(Question, null=True, blank=True)
     answer = models.ForeignKey(Answer, null=True, blank=True)
     comment = models.ForeignKey(Comment, null=True, blank=True)
     reason = models.CharField(max_length=200)
     # reason options are defined through a <select> tag on the front end in question_detail.html
-    body = RichTextField()
-    flag_type = models.CharField(max_length=1, choices=flag_types)
+    body = models.TextField()
 
     class Meta:
         verbose_name = 'Flag'
@@ -133,10 +151,26 @@ class Flag(models.Model):
         return truncate(self.body)
 
 
+class Bookmark(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    date = models.DateTimeField(auto_now_add=True)
+    question = models.ForeignKey(Question, null=True, blank=True)
+    note = models.TextField(null=True, blank=True)  # 2018.01.04 - NYI, presently no way leaving a note on front end
+
+    class Meta:
+        verbose_name = 'Bookmark'
+        verbose_name_plural = 'Bookmarks'
+        ordering = ('-date',)
+
+    def __str__(self):
+        return f'{self.user.username} bookmarked Question {self.question.id}'
+
+
 class Notification(models.Model):
     answered = 'a'
     solved = 's'
     voted = 'v'
+    # flagged = 'f' ## TBI
     notification_types = (
         (answered, 'Answered'),
         (solved, 'Solved'),
@@ -189,9 +223,9 @@ class Badge(models.Model):
     name = models.CharField(max_length=100)
     flavor_text = models.CharField(max_length=100)
     icon = models.ImageField(upload_to="media/", blank=True, null=True)
-    date_time = models.DateTimeField(auto_now=True)
     question_requirement = models.IntegerField(default=0)
     answer_requirement = models.IntegerField(default=0)
+    comment_requirement = models.IntegerField(default=0)
     vote_requirement = models.IntegerField(default=0)
     recipients = models.ManyToManyField(User, blank=True)
 

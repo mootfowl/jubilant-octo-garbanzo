@@ -4,6 +4,13 @@ body, html {
     background-color: #f8f9fa!important;
 }
 
+/* SIGNIN */
+
+#signin_wrapper {
+    height: 50%
+}
+
+
 /* NAVBAR */
 
 .notification_message {
@@ -229,7 +236,7 @@ body, html {
 }
 
 #page_title {
-    margin-left: 45px;
+    margin-left: 65px;
     position: absolute;
     top: 36px;
     /*line-height: 36px;*/
@@ -288,6 +295,10 @@ body, html {
 }
 
 /* QUESTION DETAIL*/
+
+.question_actions {
+    float: right;
+}
 
 .answer_wrapper {
     background-color: #f8f9fa;

@@ -2,6 +2,40 @@
 
 {% block content %}
 
+<!-- Flag Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Flag </h5>
+                <span class="fa fa-info-circle"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="exampleModalLongBody">
+                <form action="{% url 'questions:flag' %}" method="post">
+                    {% csrf_token %}
+                    <input id="flag_type" type="hidden" value="PH1" name="object_type"/>
+                    <input id="flag_type_id" type="hidden" value="PH2" name="object_id"/>
+
+                    <p><select name="reason">
+                        <option disabled>Choose a reason</option>
+                        <option value="inappropriate">Inappropriate Content</option>
+                        <option value="duplicate">Duplicate Question</option>
+                        <option value="off-topic">Off-topic</option>
+                    </select></p>
+                    <p><textarea name="body" style="width: 100%" placeholder="What seems to be the problem?" required></textarea></p>
+                    <button type="submit" class="btn btn-secondary">CONFIRM</button>
+                </form>
+            </div>
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-secondary">CONFIRM</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
 <br />
 <div class="container">
     <div class="row">
@@ -31,37 +65,42 @@
                         {% else %}
                             <li class="answer_wrapper" style="list-style: none">
                         {% endif %}
-                            <div id="solution_indicator" class="dp_tooltip">
-                                {% if request.user == question.user and question.solved == False %}
-                                    <span class="tooltip_text">Click to select your solution.</span>
-                                    <a href="{% url 'questions:solve' answer.id %}"><span class="fa fa-check-circle-o"></span></a>
-                                {% elif question.solved and answer.solution == True %}
-                                    <span class="fa fa-check-circle-o" style="color: #9aca27"></span></a>
-                                {% endif %}
-                            </div>
-                            {% if answer.vote_set.all.exists %}
-
-                                {% for vote in answer.vote_set.all %}
-                                    {% if vote.user == request.user %}
-                                        <p class="answer_data"><span class="fa fa-arrow-circle-o-up" style="opacity: .2"></span>
-                                            <b>{{ answer.vote_counter }}</b>
-                                            <span class="fa fa-arrow-circle-o-down" style="opacity: .2"></span>
-                                        </p>
+                                <div id="solution_indicator" class="dp_tooltip">
+                                    {% if request.user == question.user and question.solved == False %}
+                                        <span class="tooltip_text">Click to select your solution.</span>
+                                        <a href="{% url 'questions:solve' answer.id %}"><span class="fa fa-check-circle-o"></span></a>
+                                    {% elif question.solved and answer.solution == True %}
+                                        <span class="fa fa-check-circle-o" style="color: #9aca27"></span></a>
                                     {% endif %}
-                                {% endfor %}
+                                </div>
 
-                            {% else %}
+                                {% if answer.vote_set.all.exists %}
+                                    {% for vote in answer.vote_set.all %}
+                                        {% if vote.user == request.user %}
+                                            <span class="answer_data"><span class="fa fa-arrow-circle-o-up" style="opacity: .2"></span>
+                                                <b>{{ answer.vote_counter }}</b>
+                                                <span class="fa fa-arrow-circle-o-down" style="opacity: .2"></span>
+                                            </span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="answer_data"><a href="{% url 'questions:voteup' answer.id %}"><span class="fa fa-arrow-circle-o-up"></span></a>
+                                        <b>{{ answer.vote_counter }}</b>
+                                        <a href="{% url 'questions:votedown' answer.id %}"><span class="fa fa-arrow-circle-o-down"></span></a>
+                                    </span>
+                                {% endif %}
 
-                                <p class="answer_data"><a href="{% url 'questions:voteup' answer.id %}"><span class="fa fa-arrow-circle-o-up"></span></a>
-                                    <b>{{ answer.vote_counter }}</b>
-                                    <a href="{% url 'questions:votedown' answer.id %}"><span class="fa fa-arrow-circle-o-down"></span></a>
-                                </p>
-
-                            {% endif %}
+                                <span>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
+                                    | posted {{ answer.created }} </span>
 
                                 <p><i>{{ answer.body|safe }}</i></p>
-                                <p>by <a href="{% url 'questions:profile' answer.user.id %}">{{ answer.user }}</a>
-                                    | posted {{ answer.created }} </p>
+
+                                <span class="answer_actions">
+                                    <button id="{{ answer.id }}" value="a" type="button" class="flag btn btn-outline-info" data-toggle="modal" data-target="#exampleModalLong">
+                                        <span class="fa fa-flag-o"> {{ answer.flag_set.all.count }}</span>
+                                    </button>
+                                </span>
+
                             </li>
                     {% endfor %}
                 </ul>
@@ -105,5 +144,27 @@
 </div>
 <br />
 
+<script>
+
+    // Custom JS that communicates type and object.id to the Flag modal dom element which is used when
+    // instantiating a new Flag object
+    let flags = document.getElementsByClassName('flag');
+    // console.log(flags);
+    for (let i = 0; i < flags.length; ++i) {
+        let id = flags[i].id;
+        let type = flags[i].value;
+        let button = document.getElementsByClassName('flag')[i];
+        // console.log(button);
+        button.onclick = function() {
+            console.log(`id: ${id} - type ${type}`);
+            let flag_type = document.getElementById('flag_type');
+            let flag_type_id = document.getElementById('flag_type_id');
+            flag_type.setAttribute('value', type);
+            flag_type_id.setAttribute('value', id)
+        };
+    }
+
+
+</script>
 
 {% endblock %}

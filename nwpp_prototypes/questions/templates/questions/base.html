@@ -4,36 +4,18 @@
     <title>source.hivemind</title>
     <link rel="stylesheet" href="{% static 'questions/style.css' %}"/>
     <link rel="icon" href="{% static 'questions/favicon.png' %}">
+    <!-- Bootstrap requirements -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <!-- Icons -->
     <script src="https://use.fontawesome.com/1a2185aed0.js"></script>
+    <!-- For custom javascript & AJAX -->
     <script src="{% static 'questions/tools.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
 
 </head>
-
-<!-- Medium Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">PLACEHOLDER</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="exampleModalLongBody">
-                PLACEHOLDER
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-        </div>
-    </div>
-</div>
 
 <header>
 
@@ -91,10 +73,10 @@
                               {{ request.user.username }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'questions:profile' request.user.id %}">Profile</a>
-                                <!--<a class="dropdown-item" href="#">Another action</a>-->
+                                <a class="dropdown-item" href="{% url 'questions:profile' request.user.id %}"><span class="fa fa-user"></span> Profile</a>
+                                <a class="dropdown-item" href="{% url 'questions:bookmarks' request.user.id %}"><span class="fa fa-bookmark-o"></span> Bookmarks</a>
                             <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'questions:signout' %}">Sign out</a>
+                                <a class="dropdown-item" href="{% url 'questions:signout' %}"><span class="fa fa-sign-out"></span> Sign out</a>
                             </div>
                         </li>
                     {% else %}
@@ -157,6 +139,7 @@
 
                 </div>
                 <div class="col">
+                    <p><img src="{% static 'questions/powered-nwpp-logo.png' %}" height="50" id="nwpp_logo"/></p>
                     © {% now "Y" %} <a href="http://nwpp.org">Northwest Power Pool Corporation</a> - All rights reserved.
                 </div>
             </div>

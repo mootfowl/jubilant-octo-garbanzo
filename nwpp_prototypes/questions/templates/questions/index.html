@@ -33,7 +33,6 @@
             <hr />
         </div>
 
-
     {% endif %}
 
     {% if request.user.is_authenticated %}
@@ -56,22 +55,6 @@
 <br />
 <div class="container" id="index_container">
 
-        <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#all" role="tab">ALL</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#unanswered" role="tab"><span class="fa fa-question-circle-o"></span> UNANSWERED</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#answered" role="tab"><span class="fa fa-check-circle-o"></span> ANSWERED</a>
-        </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane active" id="all" role="tabpanel">
             {% for question in questions %}
                 <div id="question_wrapper">
                     <div>
@@ -87,10 +70,17 @@
                         <div id="question_header">
                             <a href="{% url 'questions:question_detail' question.id %}" class="text_link">
                                 <div><b>{{ question.title }}</b>
-                                <br /> tags:
-                                {% for tag in question.tags.all %}
-                                    {{ tag }}
-                                {% endfor %}
+                                <br />
+                                    <span>
+                                        {% autoescape off %} {{ question.category.icon }} {% endautoescape %}
+                                    </span>
+                                    <span>
+                                        tags:
+                                        {% for tag in question.tags.all %}
+                                            {{ tag }}
+                                        {% endfor %}
+                                    </span>
+
                                 </div>
                             </a>
                         </div>
@@ -121,18 +111,6 @@
                         {% endif %}
                     </span>
                 </div>
-        </div>
-
-        <div class="tab-pane" id="unanswered" role="tabpanel">
-            [placeholder]
-        </div>
-
-        <div class="tab-pane" id="answered" role="tabpanel">
-            [placeholder]
-        </div>
-
-    </div>
-
 
 <br />
 <br />
