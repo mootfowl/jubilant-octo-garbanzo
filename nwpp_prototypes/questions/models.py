@@ -26,11 +26,11 @@ class Category(models.Model):
 
     def icon(self):  # This is...clunky, and hard-coded (and thus limiting). But it works...
         if self.title == 'Fundamentals':
-            return '<span class="fa fa-th-large"></span>'
+            return '<span class="fa fa-th-large"></span> FUNDAMENTALS | '
         elif self.title == 'Operations':
-            return '<span class="fa fa-cog"></span>'
+            return '<span class="fa fa-cog"></span> OPERATIONS | '
         elif self.title == 'Planning':
-            return '<span class="fa fa-line-chart"></span>'
+            return '<span class="fa fa-line-chart"></span> PLANNING | '
 
 
 class Question(models.Model):
@@ -67,6 +67,18 @@ class Answer(models.Model):
 
     def __str__(self):
         return f'RE: {self.question.title}'
+
+    def voters(self):
+        voters = []
+        for vote in self.vote_set.all():
+            voters.append(vote.user)
+        return voters
+
+    def flaggers(self):
+        flaggers = []
+        for flag in self.flag_set.all():
+            flaggers.append(flag.user)
+        return flaggers
 
 
 class Comment(models.Model):
@@ -170,22 +182,25 @@ class Notification(models.Model):
     answered = 'a'
     solved = 's'
     voted = 'v'
-    # flagged = 'f' ## TBI
+    flagged = 'f'
     notification_types = (
         (answered, 'Answered'),
         (solved, 'Solved'),
-        (voted, 'Voted')
+        (voted, 'Voted'),
+        (flagged, 'Flagged')
         )
 
     answered_template = '<div class="notification_message"><a href="/questions/profile/{0}">{1}</a> provided an answer to your question: <a href="/questions/question_detail/{2}">{3}</a></div>'
     solved_template = '<div class="notification_message"><a href="/questions/profile/{0}">{1}</a> accepted your answer to the question: <a href="/questions/question_detail/{2}">{3}</a></div>'
     voted_template = '<div class="notification_message"><a href="/questions/profile/{0}">{1}</a> voted for your answer to the question: <a href="/questions/question_detail/{2}">{3}</a></div>'
+    flagged_template = '<div class="notification_message"><a href="/questions/question_detail/{0}">Your post</a> was flagged {1} for the following reason: <i>"{2}"</i></div>'
 
     from_user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
     to_user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    question = models.ForeignKey(Question, null=True, blank=True)
-    answer = models.ForeignKey(Answer, null=True, blank=True)
+    question = models.ForeignKey(Question, null=True, blank=True, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE)
+    flag = models.ForeignKey(Flag, null=True, blank=True, on_delete=models.CASCADE)
     notification_type = models.CharField(max_length=1, choices=notification_types)
 
     class Meta:
@@ -215,6 +230,12 @@ class Notification(models.Model):
                 self.answer.question.pk,
                 escape(truncate(self.answer.question.title))
                 )
+        elif self.notification_type == self.flagged:
+            return self.flagged_template.format(
+                escape(self.flag.answer.question.id),
+                escape(self.flag.reason),
+                escape(self.flag.body)
+                )
         else:
             return 'Ooops! Something went wrong.'
 
@@ -222,7 +243,7 @@ class Notification(models.Model):
 class Badge(models.Model):
     name = models.CharField(max_length=100)
     flavor_text = models.CharField(max_length=100)
-    icon = models.ImageField(upload_to="media/", blank=True, null=True)
+    icon = models.CharField(max_length=200, null=True, blank=True)
     question_requirement = models.IntegerField(default=0)
     answer_requirement = models.IntegerField(default=0)
     comment_requirement = models.IntegerField(default=0)
@@ -230,5 +251,7 @@ class Badge(models.Model):
     recipients = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.icon} {self.name}'
+
+
 

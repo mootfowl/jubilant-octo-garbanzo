@@ -1,5 +1,15 @@
 {% extends 'questions/base.html' %}
 
+{% block heading %}
+
+    <div class="row" id="heading">
+        <div class="col">
+            <span style="font-size: 2em" class="page_heading"><span class="fa fa-comments-o"></span> QUESTIONS</span>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block feature %}
 
     {% if not request.user.is_authenticated %}
@@ -59,7 +69,7 @@
                 <div id="question_wrapper">
                     <div>
                         <a href="{% url 'questions:profile' question.user.id %}">
-                            <img src="/{{ question.user.profile.avatar }}" height="46" width="46" id="avatar_thumbnail"/>
+                            <img src="/{{ question.user.profile.avatar }}" height="46" width="46" class="avatar_thumbnail"/>
                         </a>
                     </div>
                     <div id="question_container">
@@ -71,16 +81,17 @@
                             <a href="{% url 'questions:question_detail' question.id %}" class="text_link">
                                 <div><b>{{ question.title }}</b>
                                 <br />
-                                    <span>
-                                        {% autoescape off %} {{ question.category.icon }} {% endautoescape %}
+                                    <span style="opacity: .5">
+                                        <span>
+                                            {% autoescape off %} {{ question.category.icon }} {% endautoescape %}
+                                        </span>
+                                        <span>
+                                            tags:
+                                            {% for tag in question.tags.all %}
+                                                {{ tag }}
+                                            {% endfor %}
+                                        </span>
                                     </span>
-                                    <span>
-                                        tags:
-                                        {% for tag in question.tags.all %}
-                                            {{ tag }}
-                                        {% endfor %}
-                                    </span>
-
                                 </div>
                             </a>
                         </div>

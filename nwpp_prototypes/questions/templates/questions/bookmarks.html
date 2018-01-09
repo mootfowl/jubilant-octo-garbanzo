@@ -1,16 +1,20 @@
 {% extends 'questions/base.html' %}
 
+{% block heading %}
+
+    <div class="row" id="heading">
+        <div class="col">
+            <span style="font-size: 2em" class="page_heading"><span class="fa fa-bookmark-o"></span> BOOKMARKS</span>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block content %}
 
 
 <br />
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h4><span class="fa fa-bookmark-o"></span> BOOKMARKS</h4>
-            <hr />
-        </div>
-    </div>
 
     <div class="row">
         {% if user.bookmark_set.all.count > 0 %}
@@ -21,6 +25,10 @@
                     <li><a href="{% url 'questions:question_detail' bookmark.question.id %}">{{ bookmark.question }}</a></li>
                 {% endfor %}
                 </ul>
+            </div>
+        {% else %}
+            <div class="col" style="min-height: 50%">
+                You don't have any bookmarks yet.
             </div>
         {% endif %}
 

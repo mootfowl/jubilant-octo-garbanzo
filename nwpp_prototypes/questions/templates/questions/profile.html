@@ -1,5 +1,19 @@
 {% extends 'questions/base.html' %}
 
+{% block heading %}
+
+    <div class="row" id="heading">
+        <div class="col">
+            <div class="hexagon" style="background-image: url('/{{ user.profile.avatar }}'">
+                <div class="hexTop"></div>
+                <div class="hexBottom"></div>
+            </div>
+            <span id="profile_heading" style="font-size: 2em" class="page_heading">{{ user.username }} - PROFILE</span>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block content %}
 
   <head>
@@ -26,7 +40,7 @@
             backgroundColor: 'transparent',
             colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '#4899de', '#663399', 'grey'],
             legend: {'position': 'none'},
-            chartArea: {'left': 10, 'top': 10},
+            chartArea: {'left': 30, 'top': 30},
         };
 
         let chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -38,40 +52,53 @@
 
 <br />
 <div class="container">
+
     <div class="row">
-        <div class="col">
-            <h2>{{ user.username }}</h2>
-            <hr />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <img src="/{{ user.profile.avatar }}" height="200" width="200" id="user_profile_avatar"/>
+        <div class="col-lg-2">
+            <!--<img src="/{{ user.profile.avatar }}" height="200" width="200" id="user_profile_avatar"/>-->
+            <br />
+            <br />
             <br />
             <br />
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3 col-xs-3">
+            <p><a class="fa fa-coffee"></a> <b>{{ user.profile.views }}</b> views</p>
             <p><a class="fa fa-comment-o"></a> <b>{{ user.profile.questions }}</b> questions</p>
             <p><a class="fa fa-comments-o"></a> <b>{{ user.profile.answers }}</b> answers</p>
             <p><a class="fa fa-commenting-o"></a> <b>{{ user.profile.comments }}</b> comments</p>
             <p><a class="fa fa-check-square-o"></a> <b>{{ user.profile.solutions }}</b> solutions</p>
-            <p><a class="fa fa-thumbs-o-up"></a> <b>{{ user.profile.vote_counter }}</b> votes</p>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3 col-xs-3">
+            <p><a class="fa fa-thumbs-o-up"></a> <b>{{ user.profile.vote_counter }}</b> votes</p>
             <p><a class="fa fa-flag-o"></a> <b>{{ user.profile.flags }}</b> flags</p>
             <p><a class="fa fa-search"></a> <b>{{ user.profile.searches }}</b> searches</p>
             <p><a class="fa fa-pencil-square-o"></a> <b>{{ user.profile.edits }}</b> edits</p>
-            <p><a class="fa fa-coffee"></a> <b>{{ user.profile.views }}</b> views</p>
         </div>
-        <div class="col" id="donutchart" style="width: 500px; height: 300px;"></div>
-
+        <div class="col-lg-4" id="donutchart" style="width: 500px; height: 300px;"></div>
     </div>
 
+    <div class="row">
+        <div class="col">
+            <hr />
+            <h5>BADGES</h5>
+            <ul style="list-style: none">
+                {% for badge in badges %}
+                    {% if badge in user.badge_set.all %}
+                        <li> <a href="#"> {% autoescape off %} {{ badge }} {% endautoescape %} </a></li>
+                    {% else %}
+                        <li style="opacity: .5">{% autoescape off %} {{ badge }} {% endautoescape %}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <hr />
+        </div>
+
+    </div>
 
     <div class="row">
         {% if user.question_set.all.count > 0 %}
             <div class="col-sm-6">
-                <p>QUESTIONS</p>
+                <h5>QUESTIONS</h5>
                 <ul>
                 {% for question in user.question_set.all %}
                     <li><a href="{% url 'questions:question_detail' question.id %}">{{ question }}</a></li>
@@ -81,7 +108,7 @@
         {% endif %}
         {% if user.answer_set.all.count > 0 %}
             <div class="col-sm-6">
-                <p>ANSWERS</p>
+                <h5>ANSWERS</h5>
                 <ul>
                 {% for answer in user.answer_set.all %}
                     <li><a href="{% url 'questions:question_detail' answer.id %}">{{ answer }}</a></li>

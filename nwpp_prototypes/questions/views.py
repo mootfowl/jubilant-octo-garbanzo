@@ -53,8 +53,9 @@ def activate(request):
 
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)
+    badges = Badge.objects.all()
     # return HttpResponse(f'{request.user.profile} | user id = {user_id}')
-    return render(request, 'questions/profile.html', {'user': user})
+    return render(request, 'questions/profile.html', {'user': user, 'badges': badges})
 
 
 def new_bookmark(request, question_id):
@@ -62,6 +63,14 @@ def new_bookmark(request, question_id):
     bookmark = Bookmark(user=request.user, question=question)
     bookmark.save()
     return HttpResponse('bookmarked!')
+
+
+def delete_bookmark(request, question_id):
+    question = Question.objects.get(pk=question_id)
+    bookmark = Bookmark.objects.filter(question=question)
+    bookmark.delete()
+    pass
+    # TBI
 
 
 def bookmarks(request, user_id):
@@ -93,29 +102,26 @@ def index(request):  # w/Paginator
 
 
 def question_detail(request, question_id):
-    if request.user.is_authenticated:
-        user = request.user
-        user.profile.views += 1
-        user.profile.save()
     question = Question.objects.get(pk=question_id)
     question.views += 1
     question.save()
     answers = question.answer_set.order_by('-created')  # related objects reference <object_name>_set.all()
-    # < TEST >
-    # < END TEST >
     question_tags = question.tags.all()
     tags = []
     for tag in question_tags:
         tags.append(tag)
     related = Question.objects.filter(tags__name__in=tags).distinct().exclude(pk=question_id)
     form = AnswerForm()
-    # bookmark_ids = []
-    # for bookmark in request.user.bookmark_set.all():
-    #     bookmark_ids.append(bookmark.question.id)
-    # print(f'bookmark ids = {bookmark_ids}')
-    # print(f'id = {question_id}')
-    # bookmark = int(question_id) in bookmark_ids
-    bookmark = question.bookmark_check(request.user)  # either True or False
+    # < TEST >
+    # for answer in answers:
+    #     print(request.user in answer.voters())  # EUREKA!
+    # < END TEST >
+    bookmark = None
+    if request.user.is_authenticated:
+        user = request.user
+        user.profile.views += 1
+        user.profile.save()
+        bookmark = question.bookmark_check(request.user)  # either True or False
     # print(bookmark)
     return render(request, 'questions/question_detail.html', {'question': question, 'answers': answers, 'tags': tags, 'related': related, 'form': form, 'bookmark': bookmark})
 
@@ -261,6 +267,9 @@ def flag_check(request):
 
 
 def flag(request):
+    user = request.user
+    user.profile.flags += 1
+    user.profile.save()
     type = request.POST['object_type']
     # print(type)
     id = int(request.POST['object_id'])
@@ -274,7 +283,10 @@ def flag(request):
         answer = Answer.objects.get(pk=id)
         flag = Flag(user=request.user, flag_type=type, answer=answer, reason=reason, body=body)
         flag.save()
-        print(answer.flag_set.all().count())
+        notification = Notification(from_user=request.user, to_user=answer.user, question=answer.question, answer=answer,
+                                    flag=flag, notification_type='f')
+        notification.save()
+        # print(answer.flag_set.all().count())
         # use .flag_set.all().count() to test number of flags per object, and determine if it should be archived/deleted/locked
     else:
         comment = Comment.objects.get(pk=id)

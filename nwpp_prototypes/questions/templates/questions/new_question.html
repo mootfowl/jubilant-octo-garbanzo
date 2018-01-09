@@ -1,33 +1,58 @@
 {% extends 'questions/base.html' %}
 
+{% block heading %}
 
+    <div class="row" id="heading">
+        <div class="col">
+            {% if edit %}
+                <span style="font-size: 2em" class="page_heading"><span class="fa fa-commenting-o"></span> EDIT QUESTION</span>
+            {% else %}
+                <span style="font-size: 2em" class="page_heading"><span class="fa fa-comment-o"></span> ASK A QUESTION</span>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
 
 {% block content %}
 
 <br />
 
 <div class="container">
-    {% if edit %}
-        <h4>EDIT QUESTION</h4>
-        <form action="{% url 'questions:save_question' question.id %}" method="post">
+    <div class="row">
+        <div class="col-lg-8">
+            {% if edit %}
+                <form action="{% url 'questions:save_question' question.id %}" method="post">
 
-    {% else %}
-        <h4>ASK A QUESTION</h4>
-        <form action="{% url 'questions:post_question' %}" method="post">
-    {% endif %}
+            {% else %}
+                <form action="{% url 'questions:post_question' %}" method="post">
+            {% endif %}
 
-        {% csrf_token %}
-        {{ form.media }}
-        <p>{{ form.title }}</p>
-        <p>{{ form.category }}</p>
-        <p>{{ form.body }}</p>
-        <p>{{ form.tags }}</p>
-    {% if edit %}
-        <p><button type="submit" class="btn btn-info btn-lg">SAVE</button> </p>
-    {% else %}
-        <p><button type="submit" class="btn btn-info btn-lg">ASK</button> </p>
-    {% endif %}
-    </form>
+                {% csrf_token %}
+                {{ form.media }}
+                <p>{{ form.title }}</p>
+                <p>{{ form.category }}</p>
+                <p>{{ form.body }}</p>
+                <p>{{ form.tags }}</p>
+            {% if edit %}
+                <p><button type="submit" class="btn btn-info btn-lg">SAVE</button> </p>
+            {% else %}
+                <p><button type="submit" class="btn btn-info btn-lg">ASK</button> </p>
+            {% endif %}
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <i><h5>TIPS</h5>
+            <ul>
+                <li>Search first, ask second</li>
+                <li>Write a title that summarizes the specific problem</li>
+                <li>Introduce the problem before you post any media</li>
+                <li>Include all relevant tags</li>
+                <li>Proof-read before posting</li>
+                <li>Respond to feedback</li>
+            </ul></i>
+        </div>
+    </div>
 </div>
 
 <br />

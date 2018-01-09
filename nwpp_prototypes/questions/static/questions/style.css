@@ -2,11 +2,12 @@ body, html {
     margin: 0;
     overflow-x: hidden;
     background-color: #f8f9fa!important;
+    font-size: 15px;
 }
 
 /* SIGNIN */
 
-#signin_wrapper {
+.signin_wrapper {
     height: 50%
 }
 
@@ -35,6 +36,94 @@ body, html {
 
 #global_search_btn {
     height: 45px;
+}
+
+/* BLOCK HEADING */
+
+#heading {
+    position: relative;
+    top: 30px;
+    font-weight: 200!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.page_heading {
+    color: white;
+    font-size: 1.5em;
+}
+
+/* PAGE HEADER OPTIONS */
+
+#hive_hex {
+    position: relative;
+    top: 22px;
+    left: 10px;
+}
+
+#hex3 {
+    position: relative;
+    top: 34px;
+    left: -59px;
+}
+
+#conduit_icon {
+    font-size: 4em;
+    position: relative;
+    top: 7px;
+    left: 17px;
+    color: rgba(0, 0, 0, .5)
+}
+
+#page_heading {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    background-image: url("hivemind.jpg");
+    /*background-position: center;*/
+    background-attachment: fixed;
+    /*background-size: cover;*/
+    background-repeat: no-repeat;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+#page_title {
+    margin-left: 65px;
+    position: absolute;
+    top: 36px;
+    /*line-height: 36px;*/
+    font-weight: 300;
+    font-size: 36px;
+    color: white;
+    text-decoration: none;
+    /*text-shadow: 1px 1px grey;*/
+}
+
+#title_link:visited {
+    /*color: rgba(252, 135, 59, 1);*/
+    color: white;
+}
+
+#title_link:hover {
+    /*color: deepskyblue;*/
+}
+
+#title_link {
+    text-decoration: none;
+    font-weight: 300;
+}
+
+#ask_question {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#block_background {
+    background-color: #e6e2da;
 }
 
 /* BLOCK FEATURE */
@@ -72,7 +161,6 @@ body, html {
 
 /* index.html QUESTIONS */
 
-
 #question_wrapper {
     position: relative;
     display: flex;
@@ -80,7 +168,7 @@ body, html {
     margin: 20px;
 }
 
-#avatar_thumbnail {
+.avatar_thumbnail {
     position: relative;
     border: 2px solid white;
     border-radius: 50%;
@@ -200,80 +288,86 @@ body, html {
     /*margin-bottom: 20px;*/
 }
 
-/* PAGE HEADER OPTIONS */
-
-#hive_hex {
-    position: relative;
-    top: 22px;
-    left: 10px;
-}
-
-#hex3 {
-    position: relative;
-    top: 34px;
-    left: -59px;
-}
-
-#conduit_icon {
-    font-size: 4em;
-    position: relative;
-    top: 7px;
-    left: 17px;
-    color: rgba(0, 0, 0, .5)
-}
-
-#page_heading {
-    position: relative;
-    width: 100%;
-    height: 120px;
-    background-image: url("hivemind.jpg");
-    /*background-position: center;*/
-    background-attachment: fixed;
-    /*background-size: cover;*/
-    background-repeat: no-repeat;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-}
-
-#page_title {
-    margin-left: 65px;
-    position: absolute;
-    top: 36px;
-    /*line-height: 36px;*/
-    font-weight: 300;
-    font-size: 36px;
-    color: white;
-    text-decoration: none;
-    /*text-shadow: 1px 1px grey;*/
-}
-
-#title_link:visited {
-    /*color: rgba(252, 135, 59, 1);*/
-    color: white;
-}
-
-#title_link:hover {
-    /*color: deepskyblue;*/
-}
-
-#title_link {
-    text-decoration: none;
-    font-weight: 300;
-}
-
-#ask_question {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-}
-
-#block_background {
-    background-color: #e6e2da;
-}
-
 /* PROFILE PAGE */
+
+#profile_heading {
+    position: absolute;
+    top: 5px;
+    left: 185px;
+}
+
+.hexagon {
+  position: relative;
+  width: 150px;
+  height: 86.60px;
+  margin: 43.30px 0;
+  background-size: auto 150.1111px;
+  background-position: center;
+  border-left: solid 10px #ffffff;
+  border-right: solid 10px #ffffff;
+}
+
+.hexTop,
+.hexBottom {
+  position: absolute;
+  z-index: 1;
+  width: 106.07px;
+  height: 106.07px;
+  overflow: hidden;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background: inherit;
+  left: 11.97px;
+}
+
+/*counter transform the bg image on the caps*/
+.hexTop:after,
+.hexBottom:after {
+  content: "";
+  position: absolute;
+  width: 130.0000px;
+  height: 75.05553499465137px;
+  -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
+  -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
+  transform:          rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  background: inherit;
+}
+
+.hexTop {
+  top: -53.0330px;
+  border-top: solid 14.1421px #ffffff;
+  border-right: solid 14.1421px #ffffff;
+}
+
+.hexTop:after {
+  background-position: center top;
+}
+
+.hexBottom {
+  bottom: -53.0330px;
+  border-bottom: solid 14.1421px #ffffff;
+  border-left: solid 14.1421px #ffffff;
+}
+
+.hexBottom:after {
+  background-position: center bottom;
+}
+
+.hexagon:after {
+  content: "";
+  position: absolute;
+  top: 5.7735px;
+  left: 0;
+  width: 130.0000px;
+  height: 75.0555px;
+  z-index: 2;
+  background: inherit;
+}
+
 #user_profile_avatar {
     border: 5px solid white;
     /*border-radius: 50%;*/
@@ -296,34 +390,61 @@ body, html {
 
 /* QUESTION DETAIL*/
 
+#question_thumbnail {
+    position: relative;
+    align-items: center;
+}
+
+#answer_avatar {
+    position: absolute;
+    top: 0px;
+    left: -60px;
+}
+
+.answer_body {
+    padding: 20px;
+}
+
 .question_actions {
-    float: right;
+    /*float: right;*/
 }
 
 .answer_wrapper {
+    position: relative;
     background-color: #f8f9fa;
     border-radius: 2px;
     border: 1px solid darkgrey;
-    padding: 15px;
     margin: 15px;
 }
 
 .answer_data {
+    padding: 6px;
+    padding-left: 10px;
+    border-bottom: 1px solid darkgrey;
+}
+
+.answer_actions {
+    position: relative;
+    top: -40px;
+    right: 10px;
+    float: right;
+}
+
+.vote_controls {
     font-size: 1.5em;
 }
 
 .solution_wrapper {
+    position: relative;
     background-color: #f8f9fa;
     border-radius: 2px;
     border: 1px solid #9aca27;
-    padding: 15px;
     margin: 15px;
     /*color: #9aca27;*/
 }
 
 #solution_indicator {
-    position: absolute;
-    left: 20px;
+    float: right;
     font-size: 3em;
 }
 
