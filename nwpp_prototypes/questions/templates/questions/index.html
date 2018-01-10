@@ -1,10 +1,11 @@
 {% extends 'questions/base.html' %}
+{% load static %}
 
 {% block heading %}
 
     <div class="row" id="heading">
         <div class="col">
-            <span style="font-size: 2em" class="page_heading"><span class="fa fa-comments-o"></span> QUESTIONS</span>
+            <span style="font-size: 2em" class="page_heading">Q&A</span>
         </div>
     </div>
 
@@ -15,32 +16,44 @@
     {% if not request.user.is_authenticated %}
 
         <br />
+        <br />
+        <br />
         <div class="container">
             <div class="row" id="how_it_works">
 
-                <div class="col-sm-2"><h5>HOW IT WORKS</h5></div>
-                <div class="col-md-2 dp_tooltip">
-                    <span class="tooltip_large">Anyone can ask a question</span>
-                    <span class="fa fa-comment-o" style="font-size: 2em"></span>
-                    <h5>ASK</h5>
-                </div>
-                <div class="col-md-2 dp_tooltip">
-                    <span class="tooltip_large">Answers can be provided by others</span>
-                    <span class="fa fa-comments-o" style="font-size: 2em"></span>
-                    <h5>ANSWER</h5>
-                </div>
-                <div class="col-md-2 dp_tooltip">
-                    <span class="tooltip_large">Answers are voted on, and a solution is identified</span>
-                    <span class="fa fa-check-circle-o" style="font-size: 2em"></span>
-                    <h5>SOLVE</h5>
-                </div>
-                <div class="col-sm-2">
+                <div class="col" id="onboard_hexes_all">
+                    <div id="onboard_hex0" class="hexagon">
+                        <span id="onboard_how" class="onboard-icon" style="font-size: 1em">HOW IT WORKS</span>
+                        <div class="hexTop"></div>
+                        <div class="hexBottom"></div>
+                    </div>
+                    <div id="onboard_hex1" class="hexagon dp_tooltip">
+                        <span class="tooltip_large">Anyone can ask a question</span>
+                        <span class="fa fa-comment-o onboard-icon" style="font-size: 4em"></span>
+                        <div class="hexTop"></div>
+                        <div class="hexBottom"></div>
+                    </div>
+                    <div id="onboard_hex2" class="hexagon dp_tooltip">
+                        <span class="tooltip_large">Answers can be provided by others</span>
+                        <span class="fa fa-comments-o onboard-icon" style="font-size: 4em"></span>
+                        <div class="hexTop"></div>
+                        <div class="hexBottom"></div>
+                    </div>
+                    <div id="onboard_hex3" class="hexagon dp_tooltip">
+                        <span class="tooltip_large">Answers are voted on, and a solution is identified</span>
+                        <span class="fa fa-check-circle-o onboard-icon" style="font-size: 4em"></span>
+                        <div class="hexTop"></div>
+                        <div class="hexBottom"></div>
+                    </div>
                     <a href="{% url 'questions:register' %}">
-                        <button class="btn btn-outline-info my-2 my-sm-0" id="feature_signup"><b>SIGN UP</b></button>
+                        <div id="onboard_hex4" class="hexagon">
+                            <span id="onboard_sign" class="onboard-icon" style="font-size: 1em">SIGN UP</span>
+                            <div class="hexTop"></div>
+                            <div class="hexBottom"></div>
+                        </div>
                     </a>
                 </div>
             </div>
-            <hr />
         </div>
 
     {% endif %}
@@ -67,11 +80,18 @@
 
             {% for question in questions %}
                 <div id="question_wrapper">
-                    <div>
-                        <a href="{% url 'questions:profile' question.user.id %}">
-                            <img src="/{{ question.user.profile.avatar }}" height="46" width="46" class="avatar_thumbnail"/>
-                        </a>
-                    </div>
+                    <!--hex version-->
+                    <a href="{% url 'questions:profile' question.user.id %}">
+                        <div class="hexagonSmall" style="background-image: url('/{{ question.user.profile.avatar }}'">
+                            <div class="hexTopSmall"></div>
+                            <div class="hexBottomSmall"></div>
+                        </div>
+                    </a>
+                    <!--<div>-->
+                        <!--<a href="{% url 'questions:profile' question.user.id %}">-->
+                            <!--<img src="/{{ question.user.profile.avatar }}" height="46" width="46" class="avatar_thumbnail"/>-->
+                        <!--</a>-->
+                    <!--</div>-->
                     <div id="question_container">
                         <div id="question_data">
                             {{ question.answer_set.count }} answers | {{ question.views }} views |

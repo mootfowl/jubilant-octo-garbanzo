@@ -5,11 +5,17 @@
     <div class="row" id="heading">
         <div class="col-md-1 hidden-sm hidden-xs">
             <a href="{% url 'questions:profile' question.user.id %}">
-                <img src="/{{ question.user.profile.avatar }}" height="60" width="60" class="avatar_thumbnail"/>
+                <div class="hexagonMedium" style="background-image: url('/{{ question.user.profile.avatar }}'">
+                    <div class="hexTopMedium"></div>
+                    <div class="hexBottomMedium"></div>
+                </div>
             </a>
+            <!--<a href="{% url 'questions:profile' question.user.id %}">-->
+                <!--<img src="/{{ question.user.profile.avatar }}" height="60" width="60" class="avatar_thumbnail"/>-->
+            <!--</a>-->
         </div>
         <div class="col-md-11 col-sm-12">
-            <span class="page_heading">{{ question.title }}</span>
+            <span class="page_heading" id="question_detail">{{ question.title }}</span>
         </div>
 
     </div>
@@ -62,9 +68,9 @@
             <p>
                 <span class="question_actions">
                     {% if bookmark %}
-                        <a href="#"><span class="fa fa-bookmark" style="font-size: 2em"></span></a>
+                        <a href="#"><span class="fa fa-bookmark" id="question_bookmark" style="font-size: 2em"></span></a>
                     {% else %}
-                        <a href="{% url 'questions:new_bookmark' question.id %}"><span class="fa fa-bookmark-o" id="question_bookmark" style="font-size: 2em"></span></a>
+                        <a href="#"><span class="fa fa-bookmark-o" id="question_bookmark" style="font-size: 2em"></span></a>
                     {% endif %}
                 </span>
                 by <a href="{% url 'questions:profile' question.user.id %}">{{ question.user }}</a>
@@ -79,7 +85,7 @@
                 {% for tag in tags %}
                     {{ tag }}
                 {% endfor %}</p>
-            <a href="#"><span class="fa fa-flag-o" id="question_flag" style="font-size: 1.5em"></span></a>
+            <a href="#"><span class="fa fa-flag-o" id="question_flag" style="font-size: 1.5em" data-toggle="modal" data-target="#exampleModalLong"></span></a>
 
 
             {% if answers.count > 0 %}
@@ -96,8 +102,14 @@
                         {% endif %}
                         <div id="answer_avatar">
                             <a href="{% url 'questions:profile' answer.user.id %}">
-                                <img src="/{{ answer.user.profile.avatar }}" height="46" width="46" class="avatar_thumbnail" id="heading_avatar"/>
+                                <div class="hexagonSmall" style="background-image: url('/{{ answer.user.profile.avatar }}'">
+                                    <div class="hexTopSmall"></div>
+                                    <div class="hexBottomSmall"></div>
+                                </div>
                             </a>
+                            <!--<a href="{% url 'questions:profile' answer.user.id %}">-->
+                                <!--<img src="/{{ answer.user.profile.avatar }}" height="46" width="46" class="avatar_thumbnail" id="heading_avatar"/>-->
+                            <!--</a>-->
                         </div>
                             <div class="answer_data">
                                 <div id="solution_indicator" class="dp_tooltip">
@@ -127,16 +139,16 @@
 
                                 <div class="answer_body"><i>{{ answer.body|safe }}</i></div>
 
-                                <span class="answer_actions">
+                                <div class="answer_actions">
                                     {% if request.user in answer.flaggers %}
-                                        <span class="fa fa-flag"></span>
+                                        <span class="fa fa-flag btn btn-link disabled"></span><span class="badge badge-pill badge-info">{{ answer.flag_set.all.count }}</span>
                                     {% else %}
-                                        <button id="{{ answer.id }}" value="a" type="button" class="flag btn btn-outline-info" data-toggle="modal" data-target="#exampleModalLong">
+                                        <button id="{{ answer.id }}" value="a" type="button" class="flag btn btn-link" data-toggle="modal" data-target="#exampleModalLong">
                                             <span class="fa fa-flag-o"></span>
                                         </button>
                                     {% endif %}
 
-                                </span>
+                                </div>
 
                             </li>
                     {% endfor %}
@@ -200,8 +212,7 @@
 
 <script>
 
-    // Custom JS that communicates type and object.id to the Flag modal dom element which is used when
-    // instantiating a new Flag object
+    // FLAGS
     let flags = document.getElementsByClassName('flag');
     // console.log(flags);
     for (let i = 0; i < flags.length; ++i) {
@@ -218,16 +229,30 @@
         };
     }
 
-    // AJAX Question Bookmark code goes here
+    // AJAX Question Bookmarks create/delete
     let bookmark = document.getElementById('question_bookmark');
     bookmark.onclick = function() {
-        alert("BOOKMARK'D! \n[NYI]")
+        if (bookmark.className === 'fa fa-bookmark-o') {
+            let id = {{ question.id }}
+            let data = {'question_id': id};
+            bookmark.className = 'fa fa-bookmark';
+            http_post("{% url 'questions:new_bookmark' %}", data, function(response) {
+                alert("Bookmark added");
+            })
+        } else {
+            bookmark.className = 'fa fa-bookmark-o';
+            let id = {{ question.id }}
+            let data = {'question_id': id};
+            http_post("{% url 'questions:delete_bookmark' %}", data, function(response) {
+                alert("Bookmark deleted")
+            })
+        }
     };
 
     let flag = document.getElementById('question_flag');
     flag.onclick = function() {
-        alert("FLAG'D! \n[NYI]")
-    }
+
+    };
 
 
 </script>

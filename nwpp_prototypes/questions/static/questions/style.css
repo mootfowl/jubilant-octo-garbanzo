@@ -5,6 +5,54 @@ body, html {
     font-size: 15px;
 }
 
+/* ANIMATIONS */
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
 /* SIGNIN */
 
 .signin_wrapper {
@@ -49,23 +97,13 @@ body, html {
 }
 
 .page_heading {
+    animation-name: slideInFromLeft;
+    animation-duration: .5s;
     color: white;
     font-size: 1.5em;
 }
 
 /* PAGE HEADER OPTIONS */
-
-#hive_hex {
-    position: relative;
-    top: 22px;
-    left: 10px;
-}
-
-#hex3 {
-    position: relative;
-    top: 34px;
-    left: -59px;
-}
 
 #conduit_icon {
     font-size: 4em;
@@ -127,6 +165,114 @@ body, html {
 }
 
 /* BLOCK FEATURE */
+
+.onboard-icon {
+    position: relative;
+    left: 16px;
+    z-index: 10;
+    font-size: 4em;
+    top: -2px;
+    color: white;
+}
+
+#onboard_how {
+    position: relative;
+    top: 6px;
+}
+
+#onboard_sign {
+    position: relative;
+    top: 17px;
+}
+
+#onboard_hexes_all {
+    position: absolute;
+    top: -165px;
+    left: 35%;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+#onboard_hex0 {
+    animation-name: slideInFromLeft;
+    animation-duration: 1s;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+#onboard_hex1 {
+    animation-name: slideInFromBottom;
+    animation-duration: 1s;
+    position: absolute;
+    top: 91px;
+    left: 67px;
+}
+
+#onboard_hex2 {
+    animation-name: slideInFromTop;
+    animation-duration: 1s;
+    position: absolute;
+    top: 0px;
+    left: 121px;
+}
+
+#onboard_hex3 {
+    animation-name: slideInFromBottom;
+    animation-duration: 1s;
+    position: relative;
+    top: 6px;
+    left: 158px;
+}
+
+#onboard_hex4 {
+    animation-name: slideInFromRight;
+    animation-duration: 1s;
+    position: absolute;
+    top: 0px;
+    left: 227px;
+}
+
+.hexagon {
+  position: relative;
+  width: 100px;
+  height: 57.74px;
+  background-color: dimgrey;
+  margin: 28.87px 0;
+  border-left: solid 5px #ffffff;
+  border-right: solid 5px #ffffff;
+}
+
+.hexagon:hover {
+    background-color: #5bc0de;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 70.71px;
+  height: 70.71px;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background-color: inherit;
+  left: 9.6447px;
+}
+
+.hexagon:before {
+  top: -35.3553px;
+  border-top: solid 7.0711px #ffffff;
+  border-right: solid 7.0711px #ffffff;
+}
+
+.hexagon:after {
+  bottom: -35.3553px;
+  border-bottom: solid 7.0711px #ffffff;
+  border-left: solid 7.0711px #ffffff;
+}
 
 #how_it_works {
     position: relative;
@@ -288,7 +434,7 @@ body, html {
     /*margin-bottom: 20px;*/
 }
 
-/* PROFILE PAGE */
+/* PROFILE IMAGES */
 
 #profile_heading {
     position: absolute;
@@ -296,19 +442,19 @@ body, html {
     left: 185px;
 }
 
-.hexagon {
+.hexagonLarge {
   position: relative;
   width: 150px;
   height: 86.60px;
   margin: 43.30px 0;
-  background-size: auto 150.1111px;
+  background-size: auto 154.7299px;
   background-position: center;
-  border-left: solid 10px #ffffff;
-  border-right: solid 10px #ffffff;
+  border-left: solid 8px #ffffff;
+  border-right: solid 8px #ffffff;
 }
 
-.hexTop,
-.hexBottom {
+.hexTopLarge,
+.hexBottomLarge {
   position: absolute;
   z-index: 1;
   width: 106.07px;
@@ -318,55 +464,203 @@ body, html {
   -ms-transform: scaleY(0.5774) rotate(-45deg);
   transform: scaleY(0.5774) rotate(-45deg);
   background: inherit;
-  left: 11.97px;
+  left: 13.97px;
 }
 
 /*counter transform the bg image on the caps*/
-.hexTop:after,
-.hexBottom:after {
+.hexTopLarge:after,
+.hexBottomLarge:after {
   content: "";
   position: absolute;
-  width: 130.0000px;
-  height: 75.05553499465137px;
-  -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
-  -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
-  transform:          rotate(45deg) scaleY(1.7321) translateY(-37.5278px);
+  width: 134.0000px;
+  height: 77.36493607140986px;
+  -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-38.6825px);
+  -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-38.6825px);
+  transform:          rotate(45deg) scaleY(1.7321) translateY(-38.6825px);
   -webkit-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
   transform-origin: 0 0;
   background: inherit;
 }
 
-.hexTop {
+.hexTopLarge {
   top: -53.0330px;
-  border-top: solid 14.1421px #ffffff;
-  border-right: solid 14.1421px #ffffff;
+  border-top: solid 11.3137px #ffffff;
+  border-right: solid 11.3137px #ffffff;
 }
 
-.hexTop:after {
+.hexTopLarge:after {
   background-position: center top;
 }
 
-.hexBottom {
+.hexBottomLarge {
   bottom: -53.0330px;
-  border-bottom: solid 14.1421px #ffffff;
-  border-left: solid 14.1421px #ffffff;
+  border-bottom: solid 11.3137px #ffffff;
+  border-left: solid 11.3137px #ffffff;
 }
 
-.hexBottom:after {
+.hexBottomLarge:after {
   background-position: center bottom;
 }
 
-.hexagon:after {
+.hexagonLarge:after {
   content: "";
   position: absolute;
-  top: 5.7735px;
+  top: 4.6188px;
   left: 0;
-  width: 130.0000px;
-  height: 75.0555px;
+  width: 134.0000px;
+  height: 77.3649px;
   z-index: 2;
   background: inherit;
 }
+
+.hexagonSmall {
+  position: relative;
+  top: -3px;
+  width: 42px;
+  height: 24.25px;
+  margin: 12.12px 0;
+  background-size: auto 43.8786px;
+  background-position: center;
+  border-left: solid 2px #ffffff;
+  border-right: solid 2px #ffffff;
+}
+
+.hexTopSmall,
+.hexBottomSmall {
+  position: absolute;
+  z-index: 1;
+  width: 29.70px;
+  height: 29.70px;
+  overflow: hidden;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background: inherit;
+  left: 4.15px;
+}
+
+/*counter transform the bg image on the caps*/
+.hexTopSmall:after,
+.hexBottomSmall:after {
+  content: "";
+  position: absolute;
+  width: 38.0000px;
+  height: 21.93931022920578px;
+  -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-10.9697px);
+  -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-10.9697px);
+  transform:          rotate(45deg) scaleY(1.7321) translateY(-10.9697px);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  background: inherit;
+}
+
+.hexTopSmall {
+  top: -14.8492px;
+  border-top: solid 2.8284px #ffffff;
+  border-right: solid 2.8284px #ffffff;
+}
+
+.hexTopSmall:after {
+  background-position: center top;
+}
+
+.hexBottomSmall {
+  bottom: -14.8492px;
+  border-bottom: solid 2.8284px #ffffff;
+  border-left: solid 2.8284px #ffffff;
+}
+
+.hexBottomSmall:after {
+  background-position: center bottom;
+}
+
+.hexagonSmall:after {
+  content: "";
+  position: absolute;
+  top: 1.1547px;
+  left: 0;
+  width: 38.0000px;
+  height: 21.9393px;
+  z-index: 2;
+  background: inherit;
+}
+
+.hexagonMedium {
+  position: relative;
+  top: -5px;
+  width: 60px;
+  height: 34.64px;
+  margin: 17.32px 0;
+  background-size: auto 62.3538px;
+  background-position: center;
+  border-left: solid 3px #ffffff;
+  border-right: solid 3px #ffffff;
+}
+
+.hexTopMedium,
+.hexBottomMedium {
+  position: absolute;
+  z-index: 1;
+  width: 42.43px;
+  height: 42.43px;
+  overflow: hidden;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background: inherit;
+  left: 5.79px;
+}
+
+/*counter transform the bg image on the caps*/
+.hexTopMedium:after,
+.hexBottomMedium:after {
+  content: "";
+  position: absolute;
+  width: 54.0000px;
+  height: 31.176914536239796px;
+  -webkit-transform:  rotate(45deg) scaleY(1.7321) translateY(-15.5885px);
+  -ms-transform:      rotate(45deg) scaleY(1.7321) translateY(-15.5885px);
+  transform:          rotate(45deg) scaleY(1.7321) translateY(-15.5885px);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  background: inherit;
+}
+
+.hexTopMedium {
+  top: -21.2132px;
+  border-top: solid 4.2426px #ffffff;
+  border-right: solid 4.2426px #ffffff;
+}
+
+.hexTopMedium:after {
+  background-position: center top;
+}
+
+.hexBottomMedium {
+  bottom: -21.2132px;
+  border-bottom: solid 4.2426px #ffffff;
+  border-left: solid 4.2426px #ffffff;
+}
+
+.hexBottomMedium:after {
+  background-position: center bottom;
+}
+
+.hexagonMedium:after {
+  content: "";
+  position: absolute;
+  top: 1.7321px;
+  left: 0;
+  width: 54.0000px;
+  height: 31.1769px;
+  z-index: 2;
+  background: inherit;
+}
+
+/* PROFILE PAGE*/
 
 #user_profile_avatar {
     border: 5px solid white;
@@ -390,9 +684,20 @@ body, html {
 
 /* QUESTION DETAIL*/
 
+
+#question_detail {
+    position: relative;
+    top: -9px;
+}
+
 #question_thumbnail {
     position: relative;
     align-items: center;
+}
+
+#question_bookmark {
+    position: relative;
+    top: 6px;
 }
 
 #answer_avatar {
@@ -406,7 +711,6 @@ body, html {
 }
 
 .question_actions {
-    /*float: right;*/
 }
 
 .answer_wrapper {
@@ -423,11 +727,27 @@ body, html {
     border-bottom: 1px solid darkgrey;
 }
 
+.answer_data::before {
+    position: absolute;
+    top: 16px;
+    right: 100%;
+    left: -6px;
+    display: block;
+    width: 10px;
+    height: 10px;
+    content: " ";
+    transform: rotate(-45deg);
+    background-color: #f8f9fa;
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+}
+
 .answer_actions {
     position: relative;
-    top: -40px;
-    right: 10px;
-    float: right;
+    /*border-top: 1px solid darkgrey;*/
+    /*top: -40px;*/
+    /*right: 10px;*/
+    /*float: right;*/
 }
 
 .vote_controls {
@@ -444,8 +764,10 @@ body, html {
 }
 
 #solution_indicator {
+    position: relative;
+    top: -2px;
     float: right;
-    font-size: 3em;
+    font-size: 2.5em;
 }
 
 /* TOOLTIPS */
@@ -470,7 +792,7 @@ body, html {
 
     /* Position the tooltip text */
     position: absolute;
-    z-index: 1;
+    z-index: 100;
     bottom: 125%;
     left: 50%;
     margin-left: -60px;
@@ -510,7 +832,7 @@ body, html {
 
     /* Position the tooltip text */
     position: absolute;
-    z-index: 1;
+    z-index: 100;
     bottom: 125%;
     left: 50%;
     margin-left: -60px;

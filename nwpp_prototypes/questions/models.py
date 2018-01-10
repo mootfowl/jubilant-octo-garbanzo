@@ -104,9 +104,16 @@ class Profile(models.Model):  # Extends base User class with additional fields
     views = models.IntegerField(default=0)
     searches = models.IntegerField(default=0)
     edits = models.IntegerField(default=0)
+    bookmarks = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} - Profile'
+
+    def earned_badges(self):
+        badges = []
+        for badge in self.user.badge_set.all():
+            badges.append(badge)
+        return badges
 
 
 class Vote(models.Model):

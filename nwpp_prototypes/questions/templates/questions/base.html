@@ -22,7 +22,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url 'questions:index' %}">
-                <img src="{% static 'questions/hivemind_v2.png' %}" height="45" id="site_logo"/>
+                <img src="{% static 'questions/hivemind_v2.png' %}" height="35" id="site_logo"/>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -106,12 +106,6 @@
     <div id="page_heading">
         <div class="container">
             {% block heading %}
-            <!--<div id="hive_hex">-->
-                <!--<img src="{% static 'questions/hex_border_lightgrey.png' %}" height="40" id="hex1"/>-->
-                <!--<img src="{% static 'questions/hex_border_lightgrey.png' %}" height="40" id="hex2"/>-->
-                <!--<img src="{% static 'questions/hex_border_lightgrey.png' %}" height="40" id="hex3"/>-->
-            <!--</div>-->
-            <!--<h3 id="page_title"><a href="{% url 'questions:index' %}" id="title_link">hivemind</a></h3>-->
             {% endblock %}
         </div>
     </div>

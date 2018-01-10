@@ -54,23 +54,27 @@ def activate(request):
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)
     badges = Badge.objects.all()
-    # return HttpResponse(f'{request.user.profile} | user id = {user_id}')
+    # print(user.profile.earned_badges())
     return render(request, 'questions/profile.html', {'user': user, 'badges': badges})
 
 
-def new_bookmark(request, question_id):
-    question = Question.objects.get(pk=question_id)
+def new_bookmark(request):
+    data = json.loads(request.body)
+    question = Question.objects.get(pk=data['question_id'])
     bookmark = Bookmark(user=request.user, question=question)
     bookmark.save()
-    return HttpResponse('bookmarked!')
+    user = request.user
+    user.profile.bookmarks += 1
+    user.profile.save()
+    return HttpResponse('ok')
 
 
-def delete_bookmark(request, question_id):
-    question = Question.objects.get(pk=question_id)
+def delete_bookmark(request):
+    data = json.loads(request.body)
+    question = Question.objects.get(pk=data['question_id'])
     bookmark = Bookmark.objects.filter(question=question)
     bookmark.delete()
-    pass
-    # TBI
+    return HttpResponse('ok')
 
 
 def bookmarks(request, user_id):

@@ -4,11 +4,11 @@
 
     <div class="row" id="heading">
         <div class="col">
-            <div class="hexagon" style="background-image: url('/{{ user.profile.avatar }}'">
-                <div class="hexTop"></div>
-                <div class="hexBottom"></div>
+            <div class="hexagonLarge" style="background-image: url('/{{ user.profile.avatar }}'">
+                <div class="hexTopLarge"></div>
+                <div class="hexBottomLarge"></div>
             </div>
-            <span id="profile_heading" style="font-size: 2em" class="page_heading">{{ user.username }} - PROFILE</span>
+            <span id="profile_heading" style="font-size: 2em" class="page_heading">{{ user.username }}</span>
         </div>
     </div>
 
@@ -32,13 +32,14 @@
             ['Flags', {{ user.profile.flags }}],
             ['Searches', {{ user.profile.searches }}],
             ['Edits', {{ user.profile.edits }}],
+            ['Bookmarks', {{ user.profile.bookmarks }}],
         ]);
 
         let options = {
             // title: 'ACTIVITY',
             pieHole: 0.4,
             backgroundColor: 'transparent',
-            colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '#4899de', '#663399', 'grey'],
+            colors: ['#9aca27', '#f7a300', '', '#ffdf00', '#cb4154', '#4899de', '#663399','grey', ''],
             legend: {'position': 'none'},
             chartArea: {'left': 30, 'top': 30},
         };
@@ -73,6 +74,7 @@
             <p><a class="fa fa-flag-o"></a> <b>{{ user.profile.flags }}</b> flags</p>
             <p><a class="fa fa-search"></a> <b>{{ user.profile.searches }}</b> searches</p>
             <p><a class="fa fa-pencil-square-o"></a> <b>{{ user.profile.edits }}</b> edits</p>
+            <p><a class="fa fa-bookmark-o"></a> <b>{{ user.profile.bookmarks }}</b> bookmarks</p>
         </div>
         <div class="col-lg-4" id="donutchart" style="width: 500px; height: 300px;"></div>
     </div>
