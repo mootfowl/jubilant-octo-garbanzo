@@ -45,5 +45,7 @@ urlpatterns = [
     url(r'^new_bookmark/$', views.new_bookmark, name='new_bookmark'),
     url(r'^delete_bookmark/$', views.delete_bookmark, name='delete_bookmark'),
     url(r'^bookmarks/(?P<user_id>[0-9]+)$', views.bookmarks, name='bookmarks'),
+    url(r'^hive/(?P<hive_id>[0-9]+)$', views.hive, name='hive'),
+    url(r'^new_hive/$', views.new_hive, name='new_hive'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

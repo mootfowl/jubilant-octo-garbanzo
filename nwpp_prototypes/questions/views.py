@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import datetime
 import json
-from .models import Question, Answer, Comment, Badge, Profile, Notification, Category, Vote, Flag, Bookmark
+from .models import Question, Answer, Comment, Badge, Profile, Notification, Category, Vote, Flag, Bookmark, Hive, Icon
 from .forms import QuestionForm, AnswerForm
 
 
@@ -91,6 +91,7 @@ def index(request):  # w/Paginator
     question_list = Question.objects.order_by('-created')
     paginator = Paginator(question_list, 15) # Show 15 questions per page
     page = request.GET.get('page')
+    icons = Icon.objects.all()
     try:
         questions = paginator.page(page)
     except PageNotAnInteger:
@@ -102,7 +103,7 @@ def index(request):  # w/Paginator
     # < FOR TESTING PURPOSES >
     # print(request.user.vote_set.all())
     # < END TEST >
-    return render(request, 'questions/index.html', {'questions': questions})
+    return render(request, 'questions/index.html', {'questions': questions, 'icons': icons})
 
 
 def question_detail(request, question_id):
@@ -306,3 +307,19 @@ def flag(request):
 #             return badge
 #         else:
 #             return
+
+def new_hive(request):
+    title = request.POST['title']
+    icon = Icon.objects.get(pk=int(request.POST['icon']))
+    description = request.POST['description']
+    hive = Hive(creator=request.user, title=title, icon=icon, description=description)
+    hive.save()
+    # print(hive.id)
+    request.user.profile.hives.add(hive)
+    return HttpResponseRedirect(reverse('questions:hive', kwargs={'hive_id': hive.id}))
+
+
+def hive(request, hive_id):
+    hive = Hive.objects.get(pk=hive_id)
+    print(request.user.profile.hives.all())  # There's a distinction when calling from a M2Mfield; use .all() instead of object_set.all()
+    return render(request, 'questions/hive.html', {'hive': hive})

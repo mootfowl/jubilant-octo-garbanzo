@@ -53,6 +53,7 @@ body, html {
   }
 }
 
+
 /* SIGNIN */
 
 .signin_wrapper {
@@ -304,6 +305,54 @@ body, html {
     /*position: relative;*/
     /*top: 50px;*/
 }
+
+/* HIVES */
+
+.hive_description {
+    color: whitesmoke;
+}
+
+#hives {
+    position: absolute;
+    top: -40px;
+    left: 0px;
+    display: flex;
+    flex-direction: row-reverse;
+    /*width: 200px;*/
+}
+
+#hives div {
+    margin: 3px;
+    height: 50px;
+    width: 44px;
+    background-image: url("hex_border_lightgrey.png");
+    background-size: 44px;
+    text-align: center;
+    font-size: 1.5em;
+    color: lightgrey;
+}
+
+#hives div span {
+    position: relative;
+    top: 13px;
+}
+
+#hives div:hover {
+    color: white;
+}
+
+#new_hive {
+    margin: 3px;
+    position: absolute;
+    top: 3px;
+    left: 25px;
+}
+
+#new_hive_text {
+    position: inherit;
+    top: -7px;
+    left: 11px;
+ }
 
 /* index.html QUESTIONS */
 

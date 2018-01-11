@@ -15,6 +15,13 @@ def truncate(value):
         return value
 
 
+class Icon(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'<span class="fa fa-{self.name}"></span>'
+
+
 class Category(models.Model):
     title = models.CharField(max_length=50)
 
@@ -33,9 +40,34 @@ class Category(models.Model):
             return '<span class="fa fa-line-chart"></span> PLANNING | '
 
 
+class Hive(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    creator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=200)
+    icon = models.ForeignKey(Icon, null=True, on_delete=models.SET_NULL)
+    description = models.TextField(null=True, blank=True)
+    # colorField??
+
+    class Meta:
+        verbose_name = 'Hive'
+        verbose_name_plural = 'Hives'
+        ordering = ('-created',)
+
+    def __str__(self):
+        return self.title
+
+
+class Invite(models.Model):
+    hive = models.ForeignKey(Hive, null=True, on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pass
+
+
 class Question(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
+    hive = models.ForeignKey(Hive, null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
     body = RichTextField()
     tags = TaggableManager()
@@ -88,12 +120,18 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+        ordering = ('-created',)
+
     def __str__(self):
         return f'Comment by {self.user.username} on {self.created} {self.answer}'
 
 
 class Profile(models.Model):  # Extends base User class with additional fields
     user = models.OneToOneField(User, primary_key=True, related_name='profile', on_delete=models.CASCADE)
+    hives = models.ManyToManyField(Hive, blank=True)
     avatar = models.ImageField(upload_to="media/", blank=True, null=True)
     questions = models.IntegerField(default=0)
     answers = models.IntegerField(default=0)
